@@ -1,0 +1,12 @@
+{
+  "workspace": ".polyx",
+  "segmenter": "polyness",
+  "corpora": {
+    "cc-sample": {
+      "adapter": "cc",
+      "domain": "claude-code",
+      "source": "fixtures/sample",
+      "alphabet": "fixtures/sample/alphabet.yaml"
+    }
+  }
+}

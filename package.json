@@ -20,8 +20,10 @@
     "dist",
     "src",
     "contracts",
+    "fixtures",
     "vendor",
     "bin",
+    "polyx.config.json",
     "LICENSE",
     "NOTICE"
   ],

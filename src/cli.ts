@@ -35,7 +35,10 @@ export async function run(argv: string[], out: (s: string) => void = console.log
   const json = args.includes('--json');
   const ci = args.indexOf('--contracts');
   const explicit = ci >= 0 ? args[ci + 1] : undefined;
-  const positional = args.filter((a, i) => !a.startsWith('-') && i !== ci + 1);
+  // `ci + 1` is the value of --contracts, and must not be read as a corpus
+  // name. When the flag is absent ci is -1, and ci + 1 is the FIRST argument —
+  // which is the corpus, so the guard has to check the flag was given at all.
+  const positional = args.filter((a, i) => !a.startsWith('-') && !(ci >= 0 && i === ci + 1));
 
   const config = loadConfig();
   const sub = positional[0] === 'audit' ? 'audit' : 'report';

@@ -53,9 +53,21 @@ commercial thing.
 
 ```
 npm install
-node bin/polyx-lens.mjs <corpus>
-node bin/polyx-lens.mjs audit <corpus>     # what the alphabet could not name
+node bin/polyx-lens.mjs cc-sample          # the sample corpus, shipped
+node bin/polyx-lens.mjs audit cc-sample    # what the alphabet could not name
 ```
+
+`cc-sample` is four generated Claude Code sessions that ship with the package,
+so the first run works before you have configured anything. Point
+`polyx.config.json` at your own transcripts to get a report about your own work.
+
+**The sample is generated, not obfuscated.** A real transcript with its names
+hashed still carries the shape of somebody's work — which projects, how long,
+what in what order — and that shape is the whole reason a corpus is worth
+mining, so redacting it destroys the thing being tested. Every figure the tests
+assert is planted in `fixtures/sample/generate.mjs` and stated there in a table,
+which also makes them an oracle rather than a lock on whatever the code happened
+to print.
 
 Corpora are declared in `polyx.config.json`; five adapters ship — Claude Code
 transcripts, ABCD, τ²-bench, BPIC 2017 event logs and a synthetic fixture.

@@ -1,0 +1,466 @@
+# Alphabet for the Claude Code transcript corpus. Reviewed artefact; bump
+# `version` on any change (F2.2).
+#
+# `consequence` is ACV 1.0's ordinal (docs/acv-1.0-spec.md §6.3) and every
+# value below is a judgement made once, here, about what the agent cannot take
+# back — not a description of what the tool is called:
+#
+#   none          a read. Never a mining subject (F3.2). `git status`, `ls`,
+#                 `npm test` — running the tests changes nothing that matters.
+#   compensable   money, files or state move and there is a way back:
+#                 `git commit` (amend, reset), `Edit` (git), `mkdir`, `aws s3`.
+#   irreversible  no way back from this machine: `git push` (published),
+#                 `rm` and `git checkout` (uncommitted work is gone),
+#                 `Artifact` and `SendUserFile` (it left the building),
+#                 `aws iam` / `sesv2` / `cloudformation` (an email is sent, a
+#                 stack is replaced, a policy is live).
+#
+# **Two rules the author applied when a verb is ambiguous**, both stated so a
+# reviewer can disagree with the rule rather than 553 individual verbs:
+#
+# 1. **A verb whose effect depends on a flag is typed at its worst legal use.**
+#    `sed` is a stream editor and `sed -i` writes; `curl` reads and `curl -X
+#    POST` does not. Neither is `none`. Flag-level typing would be a better
+#    alphabet and is not attempted here — it needs the command text, which this
+#    corpus deliberately does not persist.
+# 2. **An MCP server this file does not name is left unmatched, on purpose.**
+#    It then counts toward the unknown rate (F1.2) and — since rev. 9 — the
+#    audit reports it `irreversible` and not recommendable (ACV §8.4). A silent
+#    `consequence: none` for "some tool I have not thought about" is the one
+#    failure mode this alphabet must not have.
+#
+# `recommendable` (ACV §6.4) is required on every irreversible action. The five
+# set **false** are the ones where a wrong default is unbounded and no evidence
+# of past frequency should be allowed to propose it: destroying uncommitted
+# work, publishing, sending mail, and changing identity policy. This is the
+# first alphabet in the repository where that gate is used in earnest rather
+# than declared true to preserve behaviour, and it is the declaration most in
+# need of a second reader.
+#
+# **Segmentation ground truth ships with this corpus.** Every record carries
+# the `promptId` it was produced under, so `expected_episodes` is a real count
+# of tasks per session (median well above 1), not a constant. FS §10.4 says no
+# corpus polyx had could answer the segmentation question for contacts holding
+# several tasks. This one can.
+# **v2 — what counts as a step (TS §7.2's rule, applied here).** The pattern
+# table has always said a guard must be a step, never an utterance, and
+# enforces it by requiring `kind: action`. v1 typed everything the agent ran as
+# an action, so `cd`, `export`, `echo`, `sleep` and the agent's own to-do
+# bookkeeping were all eligible guards — and being ubiquitous, they precede
+# everything, so the top rules on this corpus were "before you run a script,
+# change directory" (324/324) and "before you write a file, echo something".
+# True, unviolated, unactionable.
+#
+# They are not steps. `cd` is positioning, `echo` is narration, `sleep` is
+# waiting, `TaskUpdate` is the agent talking to itself: none of them is a thing
+# a person could deliberately do first, and none is a thing a gate could
+# usefully require. They are typed `kind: system` in v2, which is the same
+# treatment BPIC's workflow scheduling transitions get for the same reason
+# (alphabet.bpic2017.yaml: "scheduler noise, typed `system` so they never guard
+# anything"). This moves ~19k of 64k action events out of the guard pool.
+#
+# v2 also splits v1's `action:shell_inspect` — a single 19,544-event type
+# covering `ls`, `cat`, `grep` and `date` — into listing, reading and
+# searching. A guard type that fires in every episode cannot discriminate
+# between subjects no matter what the miner does with it, and lumping the
+# shell's whole read surface into one symbol was the alphabet asking the miner
+# to solve a problem the alphabet had created.
+#
+# **A rejected alternative, recorded because it was measured.** Before this, a
+# statistical filter was built into the miner: withhold any guard that
+# qualifies for ≥90% of the corpus's subjects, on the reasoning that a guard
+# which discriminates between no subjects is background. It was implemented,
+# run, and reverted. On this corpus it withheld `read_file` and `git_inspect` —
+# the two guards the corpus most needs, and the two the written rules actually
+# name — because in a session holding twenty tasks over several hours,
+# genuinely important guards are ubiquitous too. It also RAISED the proposed
+# count from 3,400 to 4,447, since dropping the top-ranked guard only frees its
+# slot for a worse one. Ubiquity does not separate a norm from noise; being a
+# step does, and that is a judgement for a reviewed alphabet, not a threshold.
+corpus: cc
+version: 5
+
+event_types:
+  # ---------------------------------------------------------------- speakers
+  # Typed `customer_intent`, which is what starts an episode — and unusually,
+  # that is not a classifier's guess here. The harness records the `promptId`
+  # every action was taken under, so a prompt IS a task boundary as a matter of
+  # record. There is no intent *label*, so the type is constant and
+  # `episode.intent` will not discriminate; the boundary is the whole
+  # contribution, and it is ground truth rather than an inference (contrast
+  # ABCD, where `scenario.subflow` stands in for a classifier the corpus does
+  # not have — TS §4.1).
+  - id: customer:prompt
+    label: the operator asks for something
+    kind: customer_intent
+    match: { speaker: customer }
+    slots: []
+  - id: agent:utterance
+    match: { speaker: agent }
+    slots: []
+  - id: system:tool_result
+    match: { speaker: system, event: tool_result }
+    slots: []
+  # An interrupt is the operator stopping the agent mid-action. It is the one
+  # in-band signal in this corpus that something was going wrong, and it is
+  # typed so a rule can be conditioned on what preceded it.
+  - id: system:interrupt
+    match: { speaker: system, event: interrupt }
+    slots: []
+
+  # ------------------------------------------------------------- file access
+  - id: action:read_file
+    label: read a file
+    match: { speaker: action, tool: [Read, NotebookRead] }
+    consequence: none
+    slots: [file, ext]
+  - id: action:edit_file
+    label: edit a file
+    match: { speaker: action, tool: [Edit, NotebookEdit] }
+    consequence: compensable
+    slots: [file, ext]
+  - id: action:write_file
+    label: write a file whole
+    match: { speaker: action, tool: Write }
+    consequence: compensable
+    slots: [file, ext]
+  - id: action:search_code
+    label: search the code
+    match: { speaker: action, tool: [Grep, Glob] }
+    consequence: none
+    slots: []
+
+  # ------------------------------------------------------------ outward-bound
+  # Everything below leaves this machine. None of it can be recalled.
+  - id: action:publish_artifact
+    label: publish a page
+    match: { speaker: action, tool: Artifact }
+    consequence: irreversible
+    recommendable: false
+    slots: []
+  - id: action:send_user_file
+    label: send a file to the operator
+    match: { speaker: action, tool: SendUserFile }
+    consequence: irreversible
+    recommendable: true
+    slots: []
+  - id: action:send_message
+    label: message another agent
+    match: { speaker: action, tool: [SendMessage, PushNotification] }
+    consequence: irreversible
+    recommendable: true
+    slots: []
+
+  # --------------------------------------------------------------- delegation
+  - id: action:spawn_agent
+    label: delegate to a subagent
+    match: { speaker: action, tool: [Agent, Workflow] }
+    consequence: compensable
+    slots: [subagent_type]
+  # **A named skill is its own step (v3).** A written rule can name one skill —
+  # "load the artifact-design skill before publishing a page", "always invoke
+  # the browser skill before driving the browser" — and a guard that fires on
+  # ANY skill load does not state that rule: it is satisfied by having loaded
+  # something else entirely. So the skills a written rule names get their own
+  # type, ahead of the general one (`classify` takes the first match in
+  # document order), and every other skill still types as `action:load_skill`.
+  #
+  # This list is deliberately short and deliberately hand-kept. Typing all ~40
+  # skills by template (`action:load_skill.${skill}`) was considered and
+  # rejected: it shatters the general "load a skill" guard that 95-of-95 rules
+  # rest on, and buys per-skill types for skills no rule mentions. A skill
+  # enters this list when a clause set names it, and the cost of being wrong is
+  # one alphabet revision.
+  - id: action:load_skill_artifact_design
+    label: load the artifact-design skill
+    match: { speaker: action, tool: Skill, skill: artifact-design }
+    consequence: none
+    slots: [skill]
+  - id: action:load_skill_claude_in_chrome
+    label: load the browser skill
+    match: { speaker: action, tool: Skill, skill: claude-in-chrome }
+    consequence: none
+    slots: [skill]
+  - id: action:load_skill
+    label: load a skill
+    match: { speaker: action, tool: Skill }
+    consequence: none
+    slots: [skill]
+  # **ToolSearch is a step, not bookkeeping (v4).** It was typed
+  # `system:bookkeeping` beside TaskCreate and ExitPlanMode, which made it
+  # invisible to the miner: a guard has to be an action. But loading a deferred
+  # tool's schema is the exact analogue of loading a skill — a deliberate
+  # preparatory act the agent chooses, without which the next call cannot be
+  # made — and `action:load_skill` is an action for that reason. It is promoted
+  # so the written rule that names it ("load them with ToolSearch before
+  # calling them") can be checked at all. 188 events move from system to
+  # action; the effect on the mined set is reported in TS §15 rev. 14.
+  - id: action:load_tools
+    label: load a tool's schema
+    match: { speaker: action, tool: ToolSearch }
+    consequence: none
+    slots: []
+  - id: action:ask_operator
+    label: ask the operator
+    match: { speaker: action, tool: AskUserQuestion }
+    consequence: none
+    slots: []
+  # The agent talking to itself. Not a step: nobody can satisfy "update your
+  # to-do list first" on purpose and no gate would want them to.
+  - id: system:bookkeeping
+    kind: system
+    match: { speaker: action, tool: [TaskCreate, TaskUpdate, TaskStop, TaskOutput, ScheduleWakeup, ExitPlanMode, EnterPlanMode, ReportFindings, SendFeedback] }
+    consequence: none
+    slots: []
+
+  # ---------------------------------------------------------------- the web
+  - id: action:web_read
+    label: read the web
+    match: { speaker: action, tool: [WebFetch, WebSearch] }
+    consequence: none
+    slots: []
+  - id: action:browser_read
+    label: look at a page in the browser
+    match: { speaker: action, tool: { pattern: '^mcp__(claude-in-chrome|plugin_chrome-devtools-mcp_chrome-devtools)__(read_page|get_page_text|take_screenshot|take_snapshot|list_|find$|read_console|read_network|tabs_context)' } }
+    consequence: none
+    slots: []
+  # **Two browser surfaces, one written rule (v3).** Only the claude-in-chrome
+  # skill states a load-before-use order ("always invoke BEFORE attempting to
+  # use any mcp__claude-in-chrome__* tools"); the chrome-devtools plugin states
+  # none. Typed as one `browser_drive`, a clause about the first is measured
+  # over the second's 444 calls as well, and its denominator is not what it
+  # says. Same judgement as the named skills above: a written rule names a
+  # surface, so the surface it names is its own step.
+  - id: action:browser_drive_claude_in_chrome
+    label: drive the browser
+    match: { speaker: action, tool: { pattern: '^mcp__claude-in-chrome__' } }
+    consequence: compensable
+    slots: []
+  - id: action:browser_drive
+    label: drive the browser with devtools
+    match: { speaker: action, tool: { pattern: '^mcp__plugin_chrome-devtools-mcp_chrome-devtools__' } }
+    consequence: compensable
+    slots: []
+  - id: action:github_read
+    label: read from GitHub
+    match: { speaker: action, tool: { pattern: '^mcp__plugin_github_github__(get_|list_|search_|issue_read|pull_request_read)' } }
+    consequence: none
+    slots: []
+  - id: action:github_write
+    label: change something on GitHub
+    match: { speaker: action, tool: { pattern: '^mcp__plugin_github_github__' } }
+    consequence: irreversible
+    recommendable: true
+    slots: []
+  - id: action:mail_read
+    label: read mail
+    match: { speaker: action, tool: { pattern: '^mcp__claude_ai_Gmail__(search|list|get)' } }
+    consequence: none
+    slots: []
+  - id: action:mail_send
+    label: send mail
+    match: { speaker: action, tool: { pattern: '^mcp__claude_ai_Gmail__' } }
+    consequence: irreversible
+    recommendable: false
+    slots: []
+
+  # ------------------------------------------------------------------- shell
+  # Reads. Nothing here changes state, so nothing here is a mining subject —
+  # but they are the guards, and most of the interesting obligations are
+  # "do one of these before one of the writes below".
+  # Three read surfaces, not one. Listing a directory, reading a file and
+  # searching for a string are different things to have done first, and v1's
+  # single `shell_inspect` made them one symbol that fired in every episode.
+  - id: action:list_dir
+    label: list what is there
+    match: { speaker: action, verb: [ls, tree, find, du, df, stat, file, Get-ChildItem, Test-Path] }
+    consequence: none
+    slots: []
+  - id: action:read_shell
+    label: read a file at the shell
+    match: { speaker: action, verb: [cat, head, tail, wc, diff, xxd, Get-Content] }
+    consequence: none
+    slots: []
+  - id: action:search_shell
+    label: search for something
+    match: { speaker: action, verb: [grep, awk, cut, sort, uniq, jq, Select-Object, Where-Object, Measure-Object] }
+    consequence: none
+    slots: []
+
+  # Not steps — typed `system` so they never guard anything (see the header).
+  - id: system:shell_navigate
+    kind: system
+    match: { speaker: action, verb: [cd, export, set, source, alias, unset] }
+    consequence: none
+    slots: []
+  - id: system:shell_echo
+    kind: system
+    match: { speaker: action, verb: [echo, printf, Write-Host, Write-Output] }
+    consequence: none
+    slots: []
+  - id: system:shell_wait
+    kind: system
+    match: { speaker: action, verb: [sleep, timeout, wait, ps, top, jobs] }
+    consequence: none
+    slots: []
+  - id: system:shell_trivia
+    kind: system
+    match: { speaker: action, verb: [which, env, basename, dirname, realpath, base64, date, whoami, pwd, hostname] }
+    consequence: none
+    slots: []
+  # Killing a process is a step, and not one you can take back.
+  - id: action:process_kill
+    label: kill a process
+    match: { speaker: action, verb: [kill, pkill, Stop-Process] }
+    consequence: irreversible
+    recommendable: true
+    slots: []
+
+  # git — the part of this corpus with a written rulebook behind it.
+  - id: action:git_inspect
+    label: look at the repository state
+    match: { speaker: action, verb: git, sub: [status, log, diff, show, ls-files, branch, remote, rev-parse, describe, blame, config, shortlog, stash] }
+    consequence: none
+    slots: []
+  - id: action:git_stage
+    label: stage changes
+    match: { speaker: action, verb: git, sub: add }
+    consequence: compensable
+    slots: []
+  - id: action:git_commit
+    label: commit
+    match: { speaker: action, verb: git, sub: [commit, tag, merge, rebase, cherry-pick, revert] }
+    consequence: compensable
+    slots: []
+  - id: action:git_push
+    label: push to the remote
+    match: { speaker: action, verb: git, sub: [push, fetch, pull, clone] }
+    consequence: irreversible
+    recommendable: true
+    slots: []
+  # `checkout`, `restore`, `reset` and `clean` are the four that silently
+  # destroy uncommitted work. The standing rules name them by name and require
+  # `git status` first, which makes them the clearest obligation in the corpus
+  # to test the miner against.
+  - id: action:git_discard
+    label: discard or move away from local changes
+    match: { speaker: action, verb: git, sub: [checkout, restore, reset, clean, switch] }
+    consequence: irreversible
+    recommendable: false
+    slots: []
+  - id: action:git_other
+    match: { speaker: action, verb: git }
+    consequence: compensable
+    slots: []
+
+  # test and build — verification, so `none`: a test run that changes the
+  # working tree is a broken test, not a consequence of the alphabet.
+  - id: action:run_tests
+    label: run the tests
+    match: { speaker: action, verb: [npm, npx, bun, yarn, pnpm, cargo, go, dotnet, pytest, jest, vitest], sub: [test, tsc, eslint, vitest, jest, lint, typecheck, check, build, ci, prettier, biome] }
+    consequence: none
+    slots: []
+  - id: action:run_tests_bare
+    label: run the tests
+    match: { speaker: action, verb: [pytest, jest, vitest] }
+    consequence: none
+    slots: []
+  - id: action:package_read
+    match: { speaker: action, verb: npm, sub: [view, ls, outdated, audit, why] }
+    consequence: none
+    slots: []
+  - id: action:package_install
+    label: install dependencies
+    match: { speaker: action, verb: [npm, npx, bun, yarn, pnpm, pip, pip3, cargo, apt, brew, gem], sub: [install, add, i, ci, update, upgrade, uninstall, remove] }
+    consequence: compensable
+    slots: []
+  # `pip`, `pip3` and `gem` are not in the adapter's MULTIPLEXERS, so no `sub`
+  # feature is ever produced for them and the entry above can never match:
+  # `matchesValue` is false for an absent feature. They were landing in the
+  # unknown table (`verb=pip` x22). Typed here on the verb alone — `pip` with
+  # no sub-verb is `pip install` often enough, and the ordinal is the same
+  # either way. Same defect, same fix, for the test runners below.
+  - id: action:package_install_bare
+    label: install dependencies
+    match: { speaker: action, verb: [pip, pip3, gem] }
+    consequence: compensable
+    slots: []
+  - id: action:run_script
+    label: run a script
+    match: { speaker: action, verb: [node, python, python3, bun, npx, npm, deno, ruby, perl, php, sh, bash, zsh, pwsh, powershell, wsl, make, docker, cargo, go] }
+    consequence: compensable
+    slots: []
+
+  # filesystem mutation
+  - id: action:fs_create
+    match: { speaker: action, verb: [mkdir, touch, cp, ln, tar, zip, unzip, gzip, gunzip, curl, wget] }
+    consequence: compensable
+    slots: []
+  - id: action:fs_edit_in_place
+    label: rewrite files in place
+    match: { speaker: action, verb: [sed, tee, patch, mv, chmod, chown] }
+    consequence: compensable
+    slots: []
+  - id: action:fs_delete
+    label: delete files
+    match: { speaker: action, verb: [rm, rmdir, Remove-Item, shred] }
+    consequence: irreversible
+    recommendable: false
+    slots: []
+
+  # remote and cloud
+  - id: action:cloud_read
+    match: { speaker: action, verb: aws, sub: [logs, sts, ec2, ssm] }
+    consequence: none
+    slots: []
+  - id: action:cloud_data
+    label: change cloud data
+    match: { speaker: action, verb: aws, sub: [s3, dynamodb, sqs, kinesis, lambda] }
+    consequence: compensable
+    slots: []
+  - id: action:cloud_control
+    label: change cloud infrastructure or identity
+    match: { speaker: action, verb: [aws, gcloud, az, terraform, kubectl], sub: [iam, sesv2, ses, cloudformation, cloudfront, ecs, eks, route53, acm, apply, destroy, delete] }
+    consequence: irreversible
+    recommendable: false
+    slots: []
+  - id: action:cloud_other
+    match: { speaker: action, verb: [aws, gcloud, az, terraform, kubectl, ecs] }
+    consequence: compensable
+    slots: []
+  - id: action:gh_read
+    match: { speaker: action, verb: gh, sub: [run, view, list, status, browse] }
+    consequence: none
+    slots: []
+  - id: action:gh_write
+    label: act on GitHub from the shell
+    match: { speaker: action, verb: gh }
+    consequence: irreversible
+    recommendable: true
+    slots: []
+  - id: action:remote_shell
+    label: run something on another machine
+    match: { speaker: action, verb: [ssh, scp, rsync, sftp] }
+    consequence: compensable
+    slots: []
+
+redaction:
+  # A file path is the strongest binding this corpus has — "read it before you
+  # edit it" is a rule about one file — so it is tokenised rather than hashed:
+  # a stable surrogate that stays joinable and identifies nothing.
+  - { slot: file, strategy: token }
+  # The rest are small, closed vocabularies. Anything outside them is a name.
+  - { slot: ext, strategy: hash, unless_pattern: '^(\.[A-Za-z0-9]{1,8}|\(none\))$' }
+  - { slot: subagent_type, strategy: hash, unless_pattern: '^[a-z][a-z0-9:_-]{0,40}$' }
+  - { slot: skill, strategy: hash, unless_pattern: '^[a-z][a-z0-9:_-]{0,40}$' }
+  - { slot: project.name, strategy: hash, unless_pattern: '^[A-Za-z0-9._-]{1,60}$' }
+  # Branch names carry ticket ids and people's names. Only the three that the
+  # standing rules actually distinguish survive in the clear; the rest are
+  # hashed, and `git.on_default` carries the distinction that matters.
+  - { slot: git.branch, strategy: hash, unless: [master, main, trunk] }
+  - { slot: git.on_default, strategy: hash, unless_pattern: '^(true|false)$' }
+  - { slot: session.entrypoint, strategy: hash, unless_pattern: '^[a-z-]{1,20}$' }
+  - { slot: '*', strategy: hash }
+  - { pattern: email, strategy: hash }
+  - { pattern: phone, strategy: hash }
+  - { pattern: digits, strategy: hash, min_digits: 6 }

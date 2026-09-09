@@ -87,13 +87,18 @@ export interface ActionCount {
 export function inventory(corpus: LoadedCorpus): ActionCount[] {
   const byType = new Map<string, { count: number; failed: number }>();
   for (const it of corpus.interactions) {
-    for (const e of it.events) {
-      if (e.kind !== 'action') continue;
+    it.events.forEach((e, i) => {
+      if (e.kind !== 'action') return;
       const cur = byType.get(e.type) ?? { count: 0, failed: 0 };
       cur.count++;
-      if (e.result === 'failed') cur.failed++;
+      // An adapter may record the outcome on the action, or as the environment
+      // response that follows it — a tool result is a separate event, and the
+      // failure is a fact about the action that provoked it. Counting only the
+      // first left the column permanently zero on every transcript corpus.
+      const next = it.events[i + 1];
+      if (e.result === 'failed' || (next?.kind === 'system' && next.result === 'failed')) cur.failed++;
       byType.set(e.type, cur);
-    }
+    });
   }
   const declared = new Map(corpus.alphabet.eventTypes.map((t) => [t.id, t]));
   return [...byType]
