@@ -1,0 +1,4 @@
+# Vendored bytes, stored exactly as upstream committed them. Three of these
+# four files carry CRLF in polyness's own blobs; normalising them here would
+# make VENDORED.md's byte-for-byte claim false and its digests uncheckable.
+* -text

@@ -1,0 +1,15 @@
+{
+  "name": "polyness",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Vendored subset of polyness: the three modules polyx uses behind its segmentation, subjects and provenance ports. See VENDORED.md.",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "files": [
+    "src",
+    "LICENSE",
+    "VENDORED.md"
+  ]
+}

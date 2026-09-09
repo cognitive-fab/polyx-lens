@@ -1,0 +1,43 @@
+{
+  "name": "polyx-lens",
+  "version": "0.1.0",
+  "description": "Read an agent's own logs and report which of the rules it was given it actually kept. No mining, no model call, nothing leaves the machine.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "bin": {
+    "polyx-lens": "bin/polyx-lens.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "contracts",
+    "vendor",
+    "bin",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "node --no-warnings --test \"test/**/*.test.ts\"",
+    "ci": "npm run typecheck && npm run build && npm test",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "polyness": "file:vendor/polyness",
+    "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "typescript": "^5.9.3"
+  }
+}

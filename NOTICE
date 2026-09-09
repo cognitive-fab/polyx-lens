@@ -1,0 +1,19 @@
+polyx-lens
+Copyright (c) 2026 Cognitive Fab LLC.
+
+Licensed under the Apache License, Version 2.0; see LICENSE.
+
+This product includes software developed by third parties:
+
+polyness — https://github.com/cognitive-fab/polyness
+  Licensed under the Apache License, Version 2.0.
+  This package defines its own ports for episode segmentation, subject
+  extraction and provenance classification; polyness is one implementation
+  behind those ports, used only from src/ports/polyness/. VENDORED so a
+  checkout installs standalone: vendor/polyness/ holds the four modules that
+  make up the port surface, copied byte for byte from commit 2a0ddf84, with
+  their git object ids recorded in vendor/polyness/VENDORED.md. Nothing is
+  modified.
+
+yaml — https://github.com/eemeli/yaml
+  Licensed under the ISC License.
