@@ -100,6 +100,7 @@ export { evalAll, evalCondition, renderCondition, type FactBase, type Truth } fr
 // The lens itself.
 export { loadContracts, parseContracts, type Contract, type ContractSet } from './lens/contracts.ts';
 export { builtinContracts, contractsDir } from './lens/builtin.ts';
+export { claudeProjectsDir, localCorpus, type LocalCorpus } from './lens/local.ts';
 export { exerciseClauses, inventory, type ActionCount, type ClauseExercise } from './lens/check.ts';
 export { buildReport, renderReport, type LensReport } from './lens/report.ts';
 export { instanceFacts } from './lens/facts.ts';

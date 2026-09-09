@@ -53,13 +53,25 @@ commercial thing.
 
 ```
 npm install
-node bin/polyx-lens.mjs cc-sample          # the sample corpus, shipped
-node bin/polyx-lens.mjs audit cc-sample    # what the alphabet could not name
+node bin/polyx-lens.mjs             # your own transcripts, from ~/.claude/projects
+node bin/polyx-lens.mjs cc-sample   # the sample corpus, shipped with the package
+node bin/polyx-lens.mjs audit       # what the alphabet could and could not name
 ```
 
-`cc-sample` is four generated Claude Code sessions that ship with the package,
-so the first run works before you have configured anything. Point
-`polyx.config.json` at your own transcripts to get a report about your own work.
+**No arguments and no configuration.** Claude Code has been writing transcripts
+to `~/.claude/projects` since you installed it; that is the default corpus, read
+in place. A run on 378 sessions takes about eight seconds.
+
+It tells you what it skipped before it tells you anything else:
+
+```
+reading 378 sessions across 259 projects from ~/.claude/projects
+134 of them called a tool at least once; 244 are conversation only
+and cannot be checked
+```
+
+`cc-sample` is four generated sessions that ship with the package, for when you
+want to see the shape of the report without your own data in it.
 
 **The sample is generated, not obfuscated.** A real transcript with its names
 hashed still carries the shape of somebody's work — which projects, how long,

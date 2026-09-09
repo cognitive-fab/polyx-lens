@@ -6,7 +6,7 @@
       "adapter": "cc",
       "domain": "claude-code",
       "source": "fixtures/sample",
-      "alphabet": "fixtures/sample/alphabet.yaml"
+      "alphabet": "alphabets/claude-code.yaml"
     }
   }
 }
