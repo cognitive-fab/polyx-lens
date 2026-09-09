@@ -1,0 +1,49 @@
+# The written policy the synthetic corpus was generated under — the answer
+# key for the evaluation harness's own tests. EVALUATION INPUT.
+#
+# Ground truth, against the planted rules in test/fixtures/synthetic/generate.mjs:
+#   R1  refund after verify-identity      written, followed (19/20)   → confirmed
+#   R1' refund after lookup-order         written, followed           → confirmed
+#   R3  quote-rate after disclose-terms   written; alpha follows, beta does not
+#   Q   escalate after offer-credit        NOT written, but followed 5/5 → tribal knowledge
+#   Z   refund after add-note              written, never followed     → compliance gap
+#   -   the credit ping-pong               not written; contradicted, never proposed
+policy: synthetic-policy
+version: 1
+source: authored beside the generator
+clauses:
+  - id: c-refund-verify
+    text: "Verify the customer's identity before issuing a refund."
+    expressible: true
+    shape: precedence
+    subject: action:issue_refund
+    guard: action:verify_identity
+  - id: c-refund-lookup
+    text: "Look up the order before issuing a refund."
+    expressible: true
+    shape: precedence
+    subject: action:issue_refund
+    guard: action:lookup_order
+  - id: c-quote-disclose
+    text: "Disclose the terms before quoting a rate."
+    expressible: true
+    shape: precedence
+    subject: action:quote_rate
+    guard: action:disclose_terms
+  - id: c-refund-note
+    text: "Add a note to the case before issuing a refund."
+    expressible: true
+    shape: precedence
+    subject: action:issue_refund
+    guard: action:add_note
+  - id: c-mortgage-disclose
+    text: "For mortgages, disclose the terms before quoting a rate."
+    expressible: true
+    shape: precedence
+    subject: action:quote_rate
+    guard: action:disclose_terms
+    when: { fact: slot.product_type, value: mortgage }
+  - id: c-polite
+    text: "Be polite and empathetic."
+    expressible: false
+    reason: free-text instruction

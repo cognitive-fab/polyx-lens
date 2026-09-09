@@ -1,0 +1,180 @@
+# Alphabet for BPIC 2017 (loan applications). Reviewed artefact; bump
+# `version` on any change (F2.2).
+#
+# Three event families in the log: A_* application state changes, O_* offer
+# state changes, W_* workflow items with a lifecycle. The consequential
+# actions are the ones the bank cannot take back — an offer created and sent
+# to a customer, a decision on the application. Workflow items are the
+# guards: the work that should have been done before the decision.
+#
+# Workflow lifecycle transitions other than start/complete (schedule,
+# withdraw, suspend, resume, ate_abort) are scheduler noise, typed as
+# `system` so they never guard anything.
+#
+# v2 states `consequence` on ACV 1.0's ordinal (docs/acv-1.0-spec.md §6.3):
+# `costly` became `compensable`, `consequential: false` became `none`. Encoding
+# only — no event moved between types and no mined figure changed.
+#
+# `recommendable` (ACV §6.4) is declared true on all five irreversible actions
+# to preserve current behaviour, and that is the declaration most in need of a
+# domain reviewer on this corpus. A_Denied and O_Accepted are the two a lender
+# would most plausibly set false: proposing a denial is an underwriting
+# decision, and accepting an offer is the applicant's act, not the bank's.
+# Neither is changed here, because guessing a lending policy is not the
+# miner's business — but the gate now exists to carry the answer.
+corpus: bpic2017
+version: 2
+
+event_types:
+  # application state — decisions
+  - id: action:a_create_application
+    label: create the application
+    match: { speaker: action, name: A_Create Application }
+    consequence: none
+    slots: []
+  - id: action:a_submitted
+    label: submit the application
+    match: { speaker: action, name: A_Submitted }
+    consequence: none
+    slots: []
+  - id: action:a_concept
+    label: move the application to concept
+    match: { speaker: action, name: A_Concept }
+    consequence: none
+    slots: []
+  - id: action:a_accepted
+    label: accept the application
+    match: { speaker: action, name: A_Accepted }
+    consequence: compensable
+    slots: []
+  - id: action:a_complete
+    label: complete the application
+    match: { speaker: action, name: A_Complete }
+    consequence: none
+    slots: []
+  - id: action:a_validating
+    label: validate the application
+    match: { speaker: action, name: A_Validating }
+    consequence: none
+    slots: []
+  - id: action:a_incomplete
+    label: mark the application incomplete
+    match: { speaker: action, name: A_Incomplete }
+    consequence: none
+    slots: []
+  - id: action:a_pending
+    label: approve the application (pending disbursement)
+    match: { speaker: action, name: A_Pending }
+    consequence: irreversible
+    recommendable: true
+    slots: []
+  - id: action:a_denied
+    label: deny the application
+    match: { speaker: action, name: A_Denied }
+    consequence: irreversible
+    recommendable: true
+    slots: []
+  - id: action:a_cancelled
+    label: cancel the application
+    match: { speaker: action, name: A_Cancelled }
+    consequence: irreversible
+    recommendable: true
+    slots: []
+
+  # offers
+  - id: action:o_create_offer
+    label: create an offer
+    match: { speaker: action, name: O_Create Offer }
+    consequence: compensable
+    slots: [offered_amount, number_of_terms]
+  - id: action:o_created
+    label: record the offer as created
+    match: { speaker: action, name: O_Created }
+    consequence: none
+    slots: []
+  - id: action:o_sent
+    label: send the offer to the customer
+    match: { speaker: action, name: [O_Sent (mail and online), O_Sent (online only)] }
+    consequence: irreversible
+    recommendable: true
+    slots: []
+  - id: action:o_returned
+    label: receive the returned offer
+    match: { speaker: action, name: O_Returned }
+    consequence: none
+    slots: []
+  - id: action:o_accepted
+    label: accept the offer
+    match: { speaker: action, name: O_Accepted }
+    consequence: irreversible
+    recommendable: true
+    slots: []
+  - id: action:o_refused
+    label: record the offer as refused
+    match: { speaker: action, name: O_Refused }
+    consequence: none
+    slots: []
+  - id: action:o_cancelled
+    label: cancel the offer
+    match: { speaker: action, name: O_Cancelled }
+    consequence: compensable
+    slots: []
+
+  # workflow items — the work: start and complete only
+  - id: action:w_handle_leads
+    label: handle the lead
+    match: { speaker: action, name: W_Handle leads, lifecycle: [start, complete] }
+    consequence: none
+    slots: []
+  - id: action:w_complete_application
+    label: complete the application file
+    match: { speaker: action, name: W_Complete application, lifecycle: [start, complete] }
+    consequence: none
+    slots: []
+  - id: action:w_call_after_offers
+    label: call the customer after the offers
+    match: { speaker: action, name: W_Call after offers, lifecycle: [start, complete] }
+    consequence: none
+    slots: []
+  - id: action:w_validate_application
+    label: validate the application file
+    match: { speaker: action, name: W_Validate application, lifecycle: [start, complete] }
+    consequence: none
+    slots: []
+  - id: action:w_call_incomplete_files
+    label: call about incomplete files
+    match: { speaker: action, name: W_Call incomplete files, lifecycle: [start, complete] }
+    consequence: none
+    slots: []
+  - id: action:w_assess_potential_fraud
+    label: assess potential fraud
+    match: { speaker: action, name: W_Assess potential fraud, lifecycle: [start, complete] }
+    consequence: none
+    slots: []
+  - id: action:w_shortened_completion
+    label: shortened completion
+    match: { speaker: action, name: { pattern: '^W_Shortened completion' }, lifecycle: [start, complete] }
+    consequence: none
+    slots: []
+  - id: action:w_personal_loan_collection
+    label: personal loan collection
+    match: { speaker: action, name: W_Personal Loan collection, lifecycle: [start, complete] }
+    consequence: none
+    slots: []
+  # every other workflow transition is scheduling noise
+  - id: system:workflow
+    kind: system
+    match: { speaker: action, origin: Workflow }
+    slots: []
+
+outcomes: []   # the adapter derives the outcome from the terminal application state
+
+redaction:
+  - { slot: application.type, strategy: hash, unless: [New credit, Limit raise] }
+  - { slot: application.goal, strategy: hash, unless: [Existing loan takeover, Home improvement, Car, Other, see explanation, Unknown, Remaining debt home, Extra spending limit, Boat, Caravan / Camper, Motorcycle, Business goal, Not speficied, Debt restructuring, Tax payments] }
+  - { slot: application.requested_amount, strategy: hash, unless_pattern: '^[0-9.]+$' }
+  - { slot: offered_amount, strategy: hash, unless_pattern: '^[0-9.]+$' }
+  - { slot: number_of_terms, strategy: hash, unless_pattern: '^[0-9]+$' }
+  - { slot: accepted, strategy: hash, unless: ['true', 'false'] }
+  - { slot: selected, strategy: hash, unless: ['true', 'false'] }
+  - { slot: '*', strategy: hash }

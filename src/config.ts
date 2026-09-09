@@ -12,6 +12,7 @@
 //   }
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { builtinAlphabet } from './lens/builtin.ts';
 import { withThresholds, type Thresholds } from './thresholds.ts';
 
 export interface CorpusConfig {
@@ -72,6 +73,22 @@ export interface Config {
 
 export const CONFIG_FILE = 'polyx.config.json';
 
+/**
+ * A bare filename names an alphabet shipped with this package; anything with a
+ * separator is a path from the config file, which is how a deployment types its
+ * own system. The shipped set is the default, not a ceiling — and keeping one
+ * copy of a reviewed artefact is the point: two copies drift, and an alphabet
+ * that drifts silently changes every figure derived from it.
+ */
+function resolveAlphabet(root: string, spec: string): string {
+  if (/[\\/]/.test(spec)) return resolve(root, spec);
+  const shipped = builtinAlphabet(spec);
+  if (shipped) return shipped;
+  // Not shipped and not a path: report the name the caller used, not a
+  // resolved one, or the error names a directory they never mentioned.
+  return resolve(root, spec);
+}
+
 export function loadConfig(cwd = process.cwd(), file = CONFIG_FILE): Config {
   const path = resolve(cwd, file);
   // Paths in the file are relative to the file, not to wherever polyx was started.
@@ -91,7 +108,7 @@ export function loadConfig(cwd = process.cwd(), file = CONFIG_FILE): Config {
     const out: CorpusConfig = {
       adapter: cc.adapter,
       source: resolve(root, cc.source),
-      alphabet: resolve(root, typeof cc.alphabet === 'string' ? cc.alphabet : `alphabets/alphabet.${name}.yaml`),
+      alphabet: resolveAlphabet(root, typeof cc.alphabet === 'string' ? cc.alphabet : `alphabet.${name}.yaml`),
     };
     if (typeof cc.domain === 'string') out.domain = cc.domain;
     if (typeof cc.segmenter === 'string') out.segmenter = cc.segmenter;

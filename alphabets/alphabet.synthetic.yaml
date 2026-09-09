@@ -1,0 +1,110 @@
+# Alphabet for the synthetic fixture corpus. Reviewed artefact — edit here,
+# never in code. Bump `version` on any change: every derived figure is stamped
+# with it, and two audits under different versions must be distinguishable
+# from their output alone (F2.2).
+#
+# v2 states `consequence` on ACV 1.0's ordinal (docs/acv-1.0-spec.md §6.3).
+# `action:add_note` was the one type in the tree written as
+# `consequential: true, reversibility: free` — legal to write and silently
+# discarded, which is the redundancy the single ordinal removes. It is now
+# plainly `none`, and the F3.2 fixture still proves it is not a subject.
+# `recommendable` (ACV §6.4) is true on both irreversible actions, preserving
+# behaviour.
+corpus: synthetic
+version: 2
+
+event_types:
+  # customer turns, classified to an intent by the source
+  - id: intent:refund_request
+    kind: customer_intent
+    match: { speaker: customer, intent: refund_request }
+    slots: [order_id, email]
+  - id: intent:rate_enquiry
+    kind: customer_intent
+    match: { speaker: customer, intent: rate_enquiry }
+    slots: [product_type, phone]
+  - id: intent:complaint
+    kind: customer_intent
+    match: { speaker: customer, intent: complaint }
+    slots: [account_id]
+  - id: intent:billing_dispute
+    kind: customer_intent
+    match: { speaker: customer, intent: billing_dispute }
+    slots: [account_id]
+
+  # agent turns carrying no action
+  - id: agent:utterance
+    match: { speaker: agent }
+    slots: []
+
+  # actions — the only things rules are mined around
+  - id: action:verify_identity
+    label: verify the customer's identity
+    match: { speaker: action, button: [verify-identity, verify] }
+    consequence: none
+    slots: [account_id]
+  - id: action:lookup_order
+    label: look up the order
+    match: { speaker: action, button: lookup-order }
+    consequence: none
+    slots: [order_id]
+  - id: action:add_note
+    label: add a note to the case
+    match: { speaker: action, button: add-note }
+    consequence: none            # no effect outside our own system — not a mining subject (F3.2)
+    slots: []
+  - id: action:issue_refund
+    label: issue a refund
+    match: { speaker: action, button: [issue-refund, refund] }
+    consequence: compensable
+    slots: [amount, order_id]
+  - id: action:disclose_terms
+    label: disclose the terms
+    match: { speaker: action, button: disclose-terms }
+    consequence: none
+    slots: [product_type]
+  - id: action:quote_rate
+    label: quote a rate
+    match: { speaker: action, button: quote-rate }
+    consequence: irreversible
+    recommendable: true
+    slots: [rate, product_type]
+  - id: action:offer_credit
+    label: offer a goodwill credit
+    match: { speaker: action, button: offer-credit }
+    consequence: compensable
+    slots: [amount]
+  - id: action:escalate
+    label: escalate to a supervisor
+    match: { speaker: action, button: [escalate, transfer] }
+    consequence: irreversible
+    recommendable: true
+    slots: [reason]
+  - id: action:apply_credit
+    label: apply a credit
+    match: { speaker: action, button: apply-credit }
+    consequence: compensable
+    slots: [amount]
+  - id: action:reverse_credit
+    label: reverse a credit
+    match: { speaker: action, button: reverse-credit }
+    consequence: compensable
+    slots: [amount]
+
+  # environment responses
+  - id: system:refund_ok
+    match: { speaker: system, event: refund-ok }
+    slots: []
+
+outcomes:
+  - label: escalated
+    when: { any_event: action:escalate }
+  - label: resolved
+    when: { closed_without: action:escalate }
+
+redaction:
+  - { slot: account_id, strategy: token }
+  - { slot: email, strategy: hash }
+  - { slot: phone, strategy: hash }
+  - { pattern: email, strategy: hash }
+  - { pattern: phone, strategy: hash }

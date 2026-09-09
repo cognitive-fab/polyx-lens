@@ -1,87 +1,116 @@
-// The lens against the sample corpus, whose answers are planted in
-// fixtures/sample/generate.mjs.
+// The free lens: contract sets, the clause checker, and the report.
 //
-// The sample is GENERATED, not obfuscated. A real transcript with its names
-// hashed still carries the shape of somebody's work — which projects, how long,
-// what in what order — and that shape is the whole reason a corpus is worth
-// mining. This package is public, so its corpus contains nothing to leak, and
-// every figure asserted below was planted rather than discovered.
+// The lens is the half that becomes a separate Apache-2.0 package, so these
+// tests exercise it through its own modules only — nothing here imports the
+// miner, the store or the evaluator.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { builtinContracts } from '../src/lens/builtin.ts';
-import { exerciseClauses, inventory } from '../src/lens/check.ts';
-import { loadContracts } from '../src/lens/contracts.ts';
-import { buildReport, renderReport } from '../src/lens/report.ts';
-import { loadConfig } from '../src/config.ts';
-import { loadCorpus } from '../src/pipeline.ts';
+import { builtinContracts, exerciseClauses, inventory } from '../src/index.ts';
+import { loadContracts, parseContracts } from '../src/index.ts';
+import { buildReport, renderReport } from '../src/index.ts';
+import { loadCorpus } from '../src/index.ts';
+import { tempWorkspace } from './helpers.ts';
 
-const sample = async () => loadCorpus(loadConfig(), 'cc-sample');
-const kept = (ex: Awaited<ReturnType<typeof exerciseClauses>>, id: string) => {
-  const e = ex.find((x) => x.clauseId === id);
-  assert.ok(e, `${id} was not checked`);
-  return `${e.exercised - e.violated}/${e.exercised}`;
-};
+const CONTRACTS = builtinContracts('claude-code')!;
 
-test('the sample corpus is read whole: nothing unknown, nothing dropped', async () => {
-  const corpus = await sample();
-  assert.equal(corpus.interactions.length, 4);
-  assert.equal([...corpus.unknownShapes.values()].reduce((n, c) => n + c, 0), 0, 'every verb the generator emits is one the alphabet names');
-  assert.equal(corpus.interactions.reduce((n, i) => n + i.events.length, 0), 189);
-});
-
-test('every clause outcome is the one the generator planted', async () => {
-  const corpus = await sample();
-  const contracts = loadContracts(builtinContracts('claude-code')!);
-  const ex = await exerciseClauses(corpus, contracts.clauses);
-
-  assert.equal(kept(ex, 'cc-read-before-edit'), '18/24', 'six edits with no prior Read');
-  assert.equal(kept(ex, 'cc-read-before-write'), '13/13', 'every overwrite is read first');
-  assert.equal(kept(ex, 'cc-status-before-commit'), '3/4');
-  assert.equal(kept(ex, 'cc-status-before-push'), '2/3', 'one force-push with no status');
-  assert.equal(kept(ex, 'cc-status-before-rm'), '0/2');
-  assert.equal(kept(ex, 'cc-read-before-delete'), '1/2');
-
-  // The pair that matters: two written rules govern the same action, the corpus
-  // keeps one and breaks the other. A fixture that could not express this would
-  // not be testing the thing the lens exists to find.
-  assert.equal(kept(ex, 'cc-toolsearch-before-browser-drive'), '2/2');
-  assert.equal(kept(ex, 'cc-skill-before-browser-drive'), '0/2');
-});
-
-test('the window is what the clause says: a session-scoped rule is not judged per task', async () => {
-  const corpus = await sample();
-  const contracts = loadContracts(builtinContracts('claude-code')!);
-  const asWritten = await exerciseClauses(corpus, contracts.clauses);
-  // The same clauses forced to the episode window — what the checker did before
-  // the window was part of the model. kiosk-ui writes across two tasks, so the
-  // stricter reading turns kept instances into violations.
-  const perEpisode = await exerciseClauses(
-    corpus,
-    contracts.clauses.map((c) => ({ ...c, window: 'episode' as const })),
+test('a contract set states what it cannot check, and refuses to be vague about it', () => {
+  const set = loadContracts(CONTRACTS);
+  assert.equal(set.contracts, 'claude-code');
+  assert.ok(set.scope, 'a contract set that does not say what it excludes is claiming completeness');
+  const inexpressible = set.clauses.filter((c) => !c.expressible);
+  assert.ok(inexpressible.length > 0);
+  // The reason is the whole value of recording one: it turns "we cannot check
+  // that" into a specific claim someone can argue with.
+  assert.ok(inexpressible.every((c) => c.reason && c.reason.length > 10));
+  assert.throws(
+    () => parseContracts('contracts: x\nversion: 1\nclauses:\n  - { id: a, text: t, expressible: false }\n'),
+    /must say why/,
   );
-  const id = 'cc-read-before-write';
-  const after = asWritten.find((e) => e.clauseId === id)!;
-  const before = perEpisode.find((e) => e.clauseId === id)!;
-  // kiosk-ui writes its report in a second task, having read files in the
-  // first. The Write contract scopes itself to a file "you have already Read",
-  // with no task boundary — so as written it is kept, and only the stricter
-  // reading turns it into a violation.
-  assert.equal(after.violated, 0, 'read earlier in the session, so the rule is kept');
-  assert.equal(before.violated, 1, 'judged per task, the same history reads as a violation');
+  assert.throws(
+    () => parseContracts('contracts: x\nversion: 1\nclauses:\n  - { id: a, text: t, expressible: true, subject: s }\n'),
+    /needs a shape/,
+  );
 });
 
-test('the report names what it cannot see and what it cannot answer', async () => {
-  const corpus = await sample();
-  const contracts = loadContracts(builtinContracts('claude-code')!);
-  const ex = await exerciseClauses(corpus, contracts.clauses);
-  const inv = inventory(corpus);
-  assert.equal(inv.find((a) => a.type === 'action:git_push')!.count, 3);
-  assert.equal(inv.find((a) => a.type === 'action:git_push')!.consequence, 'irreversible');
-  assert.equal(inv.find((a) => a.type === 'action:run_script')!.failed, 1, 'a failed tool result is carried onto the action');
+test('the window is part of what a clause says, and defaults to the stricter reading', () => {
+  const set = parseContracts(
+    'contracts: x\nversion: 1\nclauses:\n' +
+      '  - { id: a, text: t, expressible: true, shape: precedence, subject: s, guard: g }\n' +
+      '  - { id: b, text: t, expressible: true, shape: precedence, subject: s, guard: g, window: interaction }\n',
+  );
+  assert.equal(set.clauses[0]!.window, 'episode', 'absent means per-task, which is the stricter claim');
+  assert.equal(set.clauses[1]!.window, 'interaction');
+  assert.throws(() => parseContracts('contracts: x\nversion: 1\nclauses:\n  - { id: a, text: t, expressible: true, shape: precedence, subject: s, guard: g, window: forever }\n'), /window must be/);
+});
 
-  const text = renderReport(buildReport(corpus, contracts, ex, inv), ex);
-  const lines = text.split('\n');
-  assert.ok(lines.findIndex((l) => l.includes('cannot name')) < lines.findIndex((l) => l.startsWith('RULES YOU WERE GIVEN')));
-  assert.match(text, /WHAT THIS REPORT CANNOT TELL YOU/);
-  assert.match(text, /15 of 28/, 'the inexpressible half is reported, not hidden');
+test('checking a clause counts what happened, and a clause never exercised is not a pass', async () => {
+  const ws = tempWorkspace();
+  try {
+    const corpus = await loadCorpus(ws.config, 'synthetic');
+    const set = parseContracts(
+      'contracts: t\nversion: 1\nclauses:\n' +
+        '  - { id: refund-after-verify, text: t, expressible: true, shape: precedence, subject: "action:issue_refund", guard: "action:verify_identity" }\n' +
+        '  - { id: never-happens, text: t, expressible: true, shape: precedence, subject: "action:cancel_order", guard: "action:escalate" }\n' +
+        '  - { id: at-most-one-refund, text: t, expressible: true, shape: at-most-one, subject: "action:issue_refund" }\n' +
+        '  - { id: unreachable, text: t, expressible: false, reason: "needs the operator intent, which the record does not carry" }\n',
+    );
+    const ex = await exerciseClauses(corpus, set.clauses);
+    // The synthetic corpus plants exactly one unverified refund (syn-0008).
+    const refund = ex.find((e) => e.clauseId === 'refund-after-verify')!;
+    assert.ok(refund.exercised > 0);
+    assert.equal(refund.violated, 1);
+    assert.equal(refund.violations[0]!.interactionId, 'syn-0008');
+    assert.ok(refund.kept.length > 0, 'the instances that KEPT it are sampled too');
+    // At most one refund per episode holds everywhere in the fixture.
+    assert.equal(ex.find((e) => e.clauseId === 'at-most-one-refund')!.violated, 0);
+    // An inexpressible clause is not checked at all — it is not silently a pass.
+    assert.ok(!ex.some((e) => e.clauseId === 'unreachable'));
+
+    const report = buildReport(corpus, set, ex, inventory(corpus));
+    // `action:cancel_order` is a step this corpus never took, so the clause is
+    // neither kept nor broken. Reporting it as kept would be the flattering lie.
+    assert.ok(report.clauses.neverExercised.some((c) => c.id === 'never-happens'));
+    assert.ok(!report.clauses.kept.includes('never-happens'), 'never exercised is never counted as kept');
+    assert.equal(report.clauses.inexpressible, 1);
+  } finally {
+    ws.cleanup();
+  }
+});
+
+test('the inventory counts consequential actions by how far their effect reaches', async () => {
+  const ws = tempWorkspace();
+  try {
+    const corpus = await loadCorpus(ws.config, 'synthetic');
+    const inv = inventory(corpus);
+    const refund = inv.find((a) => a.type === 'action:issue_refund')!;
+    assert.ok(refund, 'refunds are counted');
+    assert.equal(refund.consequence, 'compensable');
+    assert.equal(refund.label, 'issue a refund', 'the alphabet names it, not the type id');
+    // Reads are actions too, and typed `none` — the inventory reports them
+    // rather than hiding what the agent looked at.
+    assert.equal(inv.find((a) => a.type === 'action:verify_identity')!.consequence, 'none');
+  } finally {
+    ws.cleanup();
+  }
+});
+
+test('the report leads with what it cannot see, and says what it cannot answer', async () => {
+  const ws = tempWorkspace();
+  try {
+    const corpus = await loadCorpus(ws.config, 'synthetic');
+    const set = loadContracts(CONTRACTS);
+    const ex = await exerciseClauses(corpus, set.clauses);
+    const text = renderReport(buildReport(corpus, set, ex, inventory(corpus)), ex);
+    const unknownLine = text.split('\n').findIndex((l) => l.includes('cannot name'));
+    const firstFinding = text.split('\n').findIndex((l) => l.startsWith('RULES YOU WERE GIVEN'));
+    assert.ok(unknownLine > 0 && unknownLine < firstFinding, 'the unknown rate comes before any finding');
+    assert.match(text, /WHAT THIS REPORT CANNOT TELL YOU/);
+    assert.match(text, /nobody ever wrote down/);
+    // The claude-code contracts name Claude Code's own types, which the
+    // synthetic alphabet does not have: every clause is unexercised, and the
+    // report must not read as a clean bill of health.
+    assert.doesNotMatch(text, /RULES YOU WERE GIVEN, AND BROKE \(0\)\n\n(?!.*NEVER CAME UP)/s);
+  } finally {
+    ws.cleanup();
+  }
 });

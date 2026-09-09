@@ -1,0 +1,1380 @@
+{
+ "train": [
+  {
+   "convo_id": 3592,
+   "scenario": {
+    "personal": {
+     "customer_name": "crystal minh",
+     "email": "cminh730@email.com",
+     "member_level": "bronze",
+     "phone": "(977) 625-2661",
+     "username": "cminh730"
+    },
+    "order": {
+     "street_address": "6821 1st ave",
+     "full_address": "6821 1st ave  san mateo, ny 75227",
+     "city": "san mateo",
+     "num_products": "1",
+     "order_id": "3348917502",
+     "packaging": "yes",
+     "payment_method": "credit card",
+     "products": "[{'brand': 'michael_kors', 'product_type': 'jeans', 'amount': 94, 'image_url': 'images/michael_kors-jeans.jpeg'}]",
+     "purchase_date": "2019-11-06",
+     "state": "ny",
+     "zip_code": "75227"
+    },
+    "product": {
+     "names": [
+      "michael_kors jeans"
+     ],
+     "amounts": [
+      94
+     ]
+    },
+    "flow": "product_defect",
+    "subflow": "return_size"
+   },
+   "original": [
+    [
+     "agent",
+     "Hi!"
+    ],
+    [
+     "agent",
+     "How can I help you?"
+    ],
+    [
+     "customer",
+     "Hi! I need to return an item, can you help me with that?"
+    ],
+    [
+     "agent",
+     "sure, may I have your name please?"
+    ],
+    [
+     "customer",
+     "Crystal Minh"
+    ],
+    [
+     "agent",
+     "thanks, may I ask the reason for the return?"
+    ],
+    [
+     "action",
+     "Account has been pulled up for Crystal Minh."
+    ],
+    [
+     "customer",
+     "I got the wrong size."
+    ],
+    [
+     "agent",
+     "ok, may I have your username, email address and order ID please?"
+    ],
+    [
+     "customer",
+     "Username: cminh730"
+    ],
+    [
+     "customer",
+     "cminh730@email.com"
+    ],
+    [
+     "customer",
+     "Order ID: 3348917502"
+    ],
+    [
+     "action",
+     "Purchase validation in progress ..."
+    ],
+    [
+     "agent",
+     "thanks so much! What is your membership level Crystal?"
+    ],
+    [
+     "customer",
+     "I'm a bronze"
+    ],
+    [
+     "agent",
+     "ok, was the purchase made in the last 90 days?"
+    ],
+    [
+     "customer",
+     "No, I bought it in November."
+    ],
+    [
+     "agent",
+     "ok, unfortunately because it has been more than 90 days we cannot accept the return. Would there be anything else I can help you with?"
+    ],
+    [
+     "customer",
+     "What if I ask really, really nicely?"
+    ],
+    [
+     "agent",
+     "I can escalate to my manager if you'd like"
+    ],
+    [
+     "agent",
+     "I'd just need your phone number."
+    ],
+    [
+     "customer",
+     "(977) 625-2661"
+    ],
+    [
+     "action",
+     "Details of (977) 625-2661 have been entered."
+    ],
+    [
+     "action",
+     "The manager has been notified."
+    ],
+    [
+     "customer",
+     "I'll look forward to hearing from them."
+    ],
+    [
+     "customer",
+     "Thanks for trying to help."
+    ],
+    [
+     "agent",
+     "OK, I have let my manager know, they will give you a call. Sorry I couldn't be of more assistance!"
+    ],
+    [
+     "agent",
+     "Have a great night!"
+    ],
+    [
+     "customer",
+     "That's it. Take care."
+    ]
+   ],
+   "delexed": [
+    {
+     "speaker": "agent",
+     "text": "hi!",
+     "turn_count": 1,
+     "targets": [
+      "return_size",
+      "retrieve_utterance",
+      null,
+      [],
+      87
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "how can i help you?",
+     "turn_count": 2,
+     "targets": [
+      "return_size",
+      "retrieve_utterance",
+      null,
+      [],
+      35
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "hi! i need to return an item, can you help me with that?",
+     "turn_count": 3,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "sure, may i have your name please?",
+     "turn_count": 4,
+     "targets": [
+      "return_size",
+      "retrieve_utterance",
+      null,
+      [],
+      21
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "crystal minh",
+     "turn_count": 5,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "thanks, may i ask the reason for the return?",
+     "turn_count": 6,
+     "targets": [
+      "return_size",
+      "retrieve_utterance",
+      null,
+      [],
+      62
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "account has been pulled up for crystal minh.",
+     "turn_count": 7,
+     "targets": [
+      "return_size",
+      "take_action",
+      "pull-up-account",
+      [
+       "crystal minh"
+      ],
+      -1
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "i got the wrong size.",
+     "turn_count": 8,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "ok, may i have your username, email address and order id please?",
+     "turn_count": 9,
+     "targets": [
+      "return_size",
+      "retrieve_utterance",
+      null,
+      [],
+      71
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "username: <username>",
+     "turn_count": 10,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "<email>",
+     "turn_count": 11,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "order id: <order_id>",
+     "turn_count": 12,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "purchase validation in progress ...",
+     "turn_count": 13,
+     "targets": [
+      "return_size",
+      "take_action",
+      "validate-purchase",
+      [
+       "cminh730",
+       "cminh730@email.com",
+       "3348917502"
+      ],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "thanks so much! what is your membership level crystal?",
+     "turn_count": 14,
+     "targets": [
+      "return_size",
+      "retrieve_utterance",
+      null,
+      [],
+      86
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "i'm a bronze",
+     "turn_count": 15,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "ok, was the purchase made in the last 90 days?",
+     "turn_count": 16,
+     "targets": [
+      "return_size",
+      "retrieve_utterance",
+      null,
+      [],
+      80
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "no, i bought it in november.",
+     "turn_count": 17,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "ok, unfortunately because it has been more than 90 days we cannot accept the return. would there be anything else i can help you with?",
+     "turn_count": 18,
+     "targets": [
+      "return_size",
+      "retrieve_utterance",
+      null,
+      [],
+      60
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "what if i ask really, really nicely?",
+     "turn_count": 19,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "i can escalate to my manager if you'd like",
+     "turn_count": 20,
+     "targets": [
+      "return_size",
+      "retrieve_utterance",
+      null,
+      [],
+      89
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "i'd just need your phone number.",
+     "turn_count": 21,
+     "targets": [
+      "return_size",
+      "retrieve_utterance",
+      null,
+      [],
+      19
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "<phone>",
+     "turn_count": 22,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "details of <phone> have been entered.",
+     "turn_count": 23,
+     "targets": [
+      "return_size",
+      "take_action",
+      "enter-details",
+      [
+       "(977) 625-2661"
+      ],
+      -1
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "the manager has been notified.",
+     "turn_count": 24,
+     "targets": [
+      "return_size",
+      "take_action",
+      "notify-team",
+      [
+       "manager"
+      ],
+      -1
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "i'll look forward to hearing from them.",
+     "turn_count": 25,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "thanks for trying to help.",
+     "turn_count": 26,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "ok, i have let my manager know, they will give you a call. sorry i couldn't be of more assistance!",
+     "turn_count": 27,
+     "targets": [
+      "return_size",
+      "retrieve_utterance",
+      null,
+      [],
+      50
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "have a great night!",
+     "turn_count": 28,
+     "targets": [
+      "return_size",
+      "retrieve_utterance",
+      null,
+      [],
+      52
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "that's it. take care.",
+     "turn_count": 29,
+     "targets": [
+      "return_size",
+      null,
+      null,
+      [],
+      -1
+     ]
+    }
+   ]
+  },
+  {
+   "convo_id": 10015,
+   "scenario": {
+    "personal": {
+     "account_id": "4vejcyvp8u",
+     "customer_name": "norman bouchard",
+     "email": "nb860284@email.com",
+     "member_level": "gold",
+     "phone": "(510) 601-9475",
+     "username": "nb860284"
+    },
+    "order": {
+     "street_address": "9221 woodshore st",
+     "full_address": "9221 woodshore st  san mateo, wa 5940",
+     "city": "san mateo",
+     "num_products": "1",
+     "order_id": "5545781356",
+     "products": "[{'brand': 'michael_kors', 'product_type': 'jeans', 'amount': 54, 'image_url': 'images/michael_kors-jeans.jpeg'}]",
+     "purchase_date": "2020-03-22",
+     "shipping_status": "in transit",
+     "state": "wa",
+     "zip_code": "5940"
+    },
+    "product": {
+     "names": [
+      "michael_kors jeans"
+     ],
+     "amounts": [
+      54
+     ]
+    },
+    "flow": "shipping_issue",
+    "subflow": "manage"
+   },
+   "original": [
+    [
+     "agent",
+     "Thank you for contacting Acme Brands! How can I help you today?"
+    ],
+    [
+     "customer",
+     "I accidently ordered the wrong item and was wondering if I can change the item"
+    ],
+    [
+     "agent",
+     "I can check to see if we can make the adjust to your order. Can I have your name or account ID?"
+    ],
+    [
+     "customer",
+     "Norman Bouchard"
+    ],
+    [
+     "action",
+     "Account has been pulled up for Norman Bouchard."
+    ],
+    [
+     "customer",
+     "Account ID: 4VEJCYVP8U"
+    ],
+    [
+     "agent",
+     "Thank you. You need to both remove an item and add a different item to your order?"
+    ],
+    [
+     "customer",
+     "I think at this point I'd rather just cancel the order"
+    ],
+    [
+     "agent",
+     "Okay. Which is your order ID number?"
+    ],
+    [
+     "customer",
+     "Order ID: 5545781356"
+    ],
+    [
+     "action",
+     "Identity verification in progress ..."
+    ],
+    [
+     "agent",
+     "What is the shipping status of your order?"
+    ],
+    [
+     "customer",
+     "It says in transit"
+    ],
+    [
+     "action",
+     "Shipping status of in transit has been noted."
+    ],
+    [
+     "agent",
+     "What is your membership level with us?"
+    ],
+    [
+     "customer",
+     "Gold"
+    ],
+    [
+     "action",
+     "Membership level of Gold has been noted."
+    ],
+    [
+     "agent",
+     "Since the order has already shipped, I'm unable to cancel to order. However, I'll be able to refund you right away. Once the shipment arrives, you'll need to contact us for a return shipping label."
+    ],
+    [
+     "customer",
+     "Ok, that sounds good"
+    ],
+    [
+     "customer",
+     "thank you"
+    ],
+    [
+     "agent",
+     "You're welcome. What was the cost of your order?"
+    ],
+    [
+     "customer",
+     "$54"
+    ],
+    [
+     "action",
+     "A refund has been made for the amount of $54."
+    ],
+    [
+     "customer",
+     "Thanks for the help"
+    ],
+    [
+     "customer",
+     "thats all i needed"
+    ],
+    [
+     "agent",
+     "I've refunded your account $54. Is there anything else I can help you with?"
+    ],
+    [
+     "customer",
+     "No, thanks again"
+    ],
+    [
+     "agent",
+     "Alright, well enjoy your day!"
+    ]
+   ],
+   "delexed": [
+    {
+     "speaker": "agent",
+     "text": "thank you for contacting acme brands! how can i help you today?",
+     "turn_count": 1,
+     "targets": [
+      "manage",
+      "retrieve_utterance",
+      null,
+      [],
+      67
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "i accidently ordered the wrong item and was wondering if i can change the item",
+     "turn_count": 2,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "i can check to see if we can make the adjust to your order. can i have your name or account id?",
+     "turn_count": 3,
+     "targets": [
+      "manage",
+      "retrieve_utterance",
+      null,
+      [],
+      58
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "norman bouchard",
+     "turn_count": 4,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "account has been pulled up for norman bouchard.",
+     "turn_count": 5,
+     "targets": [
+      "manage",
+      "take_action",
+      "pull-up-account",
+      [
+       "norman bouchard"
+      ],
+      -1
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "account id: <account_id>",
+     "turn_count": 6,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "thank you. you need to both remove an item and add a different item to your order?",
+     "turn_count": 7,
+     "targets": [
+      "manage",
+      "retrieve_utterance",
+      null,
+      [],
+      9
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "i think at this point i'd rather just cancel the order",
+     "turn_count": 8,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "okay. which is your order id number?",
+     "turn_count": 9,
+     "targets": [
+      "manage",
+      "retrieve_utterance",
+      null,
+      [],
+      18
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "order id: <order_id>",
+     "turn_count": 10,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "identity verification in progress ...",
+     "turn_count": 11,
+     "targets": [
+      "manage",
+      "take_action",
+      "verify-identity",
+      [
+       "norman bouchard",
+       "4vejcyvp8u",
+       "5545781356"
+      ],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "what is the shipping status of your order?",
+     "turn_count": 12,
+     "targets": [
+      "manage",
+      "retrieve_utterance",
+      null,
+      [],
+      8
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "it says in transit",
+     "turn_count": 13,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "shipping status of in transit has been noted.",
+     "turn_count": 14,
+     "targets": [
+      "manage",
+      "take_action",
+      "shipping-status",
+      [
+       "in transit"
+      ],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "what is your membership level with us?",
+     "turn_count": 15,
+     "targets": [
+      "manage",
+      "retrieve_utterance",
+      null,
+      [],
+      58
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "gold",
+     "turn_count": 16,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "membership level of gold has been noted.",
+     "turn_count": 17,
+     "targets": [
+      "manage",
+      "take_action",
+      "membership",
+      [
+       "gold"
+      ],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "since the order has already shipped, i'm unable to cancel to order. however, i'll be able to refund you right away. once the shipment arrives, you'll need to contact us for a return shipping label.",
+     "turn_count": 18,
+     "targets": [
+      "manage",
+      "retrieve_utterance",
+      null,
+      [],
+      56
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "ok, that sounds good",
+     "turn_count": 19,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "thank you",
+     "turn_count": 20,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "you're welcome. what was the cost of your order?",
+     "turn_count": 21,
+     "targets": [
+      "manage",
+      "retrieve_utterance",
+      null,
+      [],
+      30
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "$<amount>",
+     "turn_count": 22,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "a refund has been made for the amount of $<amount>.",
+     "turn_count": 23,
+     "targets": [
+      "manage",
+      "take_action",
+      "offer-refund",
+      [
+       "54"
+      ],
+      -1
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "thanks for the help",
+     "turn_count": 24,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "thats all i needed",
+     "turn_count": 25,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "i've refunded your account $<amount>. is there anything else i can help you with?",
+     "turn_count": 26,
+     "targets": [
+      "manage",
+      "retrieve_utterance",
+      null,
+      [],
+      85
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "no, thanks again",
+     "turn_count": 27,
+     "targets": [
+      "manage",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "alright, well enjoy your day!",
+     "turn_count": 28,
+     "targets": [
+      "manage",
+      "retrieve_utterance",
+      null,
+      [],
+      93
+     ]
+    }
+   ]
+  }
+ ],
+ "dev": [
+  {
+   "convo_id": 2159,
+   "scenario": {
+    "personal": {
+     "customer_name": "alessandro phoenix",
+     "email": "alessandrop446@email.com",
+     "member_level": "guest",
+     "phone": "(657) 685-9368",
+     "username": "alessandrop446"
+    },
+    "order": {
+     "street_address": "3369 primrose ave",
+     "full_address": "3369 primrose ave  newark, wa 16345",
+     "city": "newark",
+     "num_products": "1",
+     "products": "[{'brand': 'calvin_klein', 'product_type': 'jeans', 'amount': 94, 'image_url': 'images/calvin_klein-jeans.jpeg'}]",
+     "state": "wa",
+     "zip_code": "16345"
+    },
+    "product": {
+     "names": [
+      "calvin_klein jeans"
+     ],
+     "amounts": [
+      94
+     ]
+    },
+    "flow": "troubleshoot_site",
+    "subflow": "credit_card"
+   },
+   "original": [
+    [
+     "agent",
+     "Hello, how can I help you?"
+    ],
+    [
+     "customer",
+     "Hi.  My name is Alessandro Phoenix.  I am trying to purchase Calvin Klein jeans, but my credit card keeps declining.  Please help."
+    ],
+    [
+     "action",
+     "Account has been pulled up for Alessandro Phoenix."
+    ],
+    [
+     "agent",
+     "Alright, first thing we need to try is having you log out, refresh the page, then log back in and try again."
+    ],
+    [
+     "agent",
+     "Let me know if that works for you."
+    ],
+    [
+     "action",
+     "Agent is looking for solutions ..."
+    ],
+    [
+     "customer",
+     "I completed those steps and still have the same problem."
+    ],
+    [
+     "agent",
+     "Alright, can you double check the expiration date on your Credit Card please? We need to be sure it is still valid"
+    ],
+    [
+     "customer",
+     "Yes the expiration date is valid."
+    ],
+    [
+     "action",
+     "Details of  have been entered."
+    ],
+    [
+     "agent",
+     "In that case, I can make the purchase for you if you like"
+    ],
+    [
+     "customer",
+     "My card number is 9999 8888 7777 6666."
+    ],
+    [
+     "agent",
+     "and the expiration date?"
+    ],
+    [
+     "customer",
+     "11/22"
+    ],
+    [
+     "action",
+     "A purchase of Calvin Klein jeans was made."
+    ],
+    [
+     "customer",
+     "Thanks!"
+    ],
+    [
+     "agent",
+     "Alright you are all set"
+    ],
+    [
+     "agent",
+     "No problem at all. Is there anything else I can do for you?"
+    ],
+    [
+     "customer",
+     "No"
+    ],
+    [
+     "agent",
+     "Alright, well you have a great day then."
+    ]
+   ],
+   "delexed": [
+    {
+     "speaker": "agent",
+     "text": "hello, how can i help you?",
+     "turn_count": 1,
+     "targets": [
+      "credit_card",
+      "retrieve_utterance",
+      null,
+      [],
+      72
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "hi.  my name is alessandro phoenix.  i am trying to purchase calvin klein jeans, but my credit card keeps declining.  please help.",
+     "turn_count": 2,
+     "targets": [
+      "credit_card",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "account has been pulled up for alessandro phoenix.",
+     "turn_count": 3,
+     "targets": [
+      "credit_card",
+      "take_action",
+      "pull-up-account",
+      [
+       "alessandro phoenix"
+      ],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "alright, first thing we need to try is having you log out, refresh the page, then log back in and try again.",
+     "turn_count": 4,
+     "targets": [
+      "credit_card",
+      "retrieve_utterance",
+      null,
+      [],
+      70
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "let me know if that works for you.",
+     "turn_count": 5,
+     "targets": [
+      "credit_card",
+      "retrieve_utterance",
+      null,
+      [],
+      65
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "agent is looking for solutions ...",
+     "turn_count": 7,
+     "targets": [
+      "credit_card",
+      "take_action",
+      "try-again",
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "i completed those steps and still have the same problem.",
+     "turn_count": 8,
+     "targets": [
+      "credit_card",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "alright, can you double check the expiration date on your credit card please? we need to be sure it is still valid",
+     "turn_count": 9,
+     "targets": [
+      "credit_card",
+      "retrieve_utterance",
+      null,
+      [],
+      42
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "yes the expiration date is valid.",
+     "turn_count": 10,
+     "targets": [
+      "credit_card",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "details of  have been entered.",
+     "turn_count": 11,
+     "targets": [
+      "credit_card",
+      "take_action",
+      "enter-details",
+      [
+       "troubleshoot"
+      ],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "in that case, i can make the purchase for you if you like",
+     "turn_count": 12,
+     "targets": [
+      "credit_card",
+      "retrieve_utterance",
+      null,
+      [],
+      86
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "my card number is 9999 8888 7777 6666.",
+     "turn_count": 13,
+     "targets": [
+      "credit_card",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "and the expiration date?",
+     "turn_count": 14,
+     "targets": [
+      "credit_card",
+      "retrieve_utterance",
+      null,
+      [],
+      24
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "11/22",
+     "turn_count": 15,
+     "targets": [
+      "credit_card",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "action",
+     "text": "a purchase of calvin klein jeans was made.",
+     "turn_count": 16,
+     "targets": [
+      "credit_card",
+      "take_action",
+      "make-purchase",
+      [
+       "calvin klein jeans"
+      ],
+      -1
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "thanks!",
+     "turn_count": 17,
+     "targets": [
+      "credit_card",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "alright you are all set",
+     "turn_count": 18,
+     "targets": [
+      "credit_card",
+      "retrieve_utterance",
+      null,
+      [],
+      20
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "no problem at all. is there anything else i can do for you?",
+     "turn_count": 19,
+     "targets": [
+      "credit_card",
+      "retrieve_utterance",
+      null,
+      [],
+      26
+     ]
+    },
+    {
+     "speaker": "customer",
+     "text": "no",
+     "turn_count": 20,
+     "targets": [
+      "credit_card",
+      null,
+      null,
+      [],
+      -1
+     ]
+    },
+    {
+     "speaker": "agent",
+     "text": "alright, well you have a great day then.",
+     "turn_count": 21,
+     "targets": [
+      "credit_card",
+      "retrieve_utterance",
+      null,
+      [],
+      57
+     ]
+    }
+   ]
+  }
+ ],
+ "test": []
+}

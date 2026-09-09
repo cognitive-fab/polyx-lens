@@ -92,8 +92,18 @@ src/alphabet/        typing, redaction, outcome classification — a reviewed YA
 src/ingest/          five adapters, each a pure function from source files to records
 src/ports/           segmentation, subjects, provenance — two implementations each
 src/lens/            contract sets, the clause checker, the report
+alphabets/           the reviewed typing for each corpus family
 contracts/           the rules a harness publishes about itself, decomposed
+fixtures/            corpora to test against, including the generated sample
 ```
+
+Alphabets and fixtures ship with the package, and a dependent reads them from
+here rather than keeping a copy: two copies of a reviewed artefact drift, and an
+alphabet that drifts silently changes every figure derived from it. A bare
+filename in `polyx.config.json` names a shipped alphabet; a path names your own.
+
+`npm test` runs 42 tests over the adapters, the alphabet, the record validator,
+the ports and the lens — the code in this package, tested in this package.
 
 **Free text is never persisted.** Command bodies, file contents, edit strings and
 prompts hold paths, host names, credentials and customer data. Only the verb and

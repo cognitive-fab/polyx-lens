@@ -13,7 +13,7 @@ import { existsSync, readdirSync, statSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 import type { CorpusConfig } from '../config.ts';
-import { contractsDir } from './builtin.ts';
+import { alphabetsDir } from './builtin.ts';
 
 /** The directory Claude Code writes its transcripts to. */
 export function claudeProjectsDir(home = homedir()): string {
@@ -64,7 +64,7 @@ export function localCorpus(home = homedir()): LocalCorpus | null {
       // own transcripts.
       domain: 'claude-code',
       source,
-      alphabet: join(contractsDir(), '..', 'alphabets', 'claude-code.yaml'),
+      alphabet: join(alphabetsDir(), 'alphabet.cc.yaml'),
       // A Claude Code session holds many tasks; the null segmenter would make
       // one episode of a whole afternoon, and every per-task rule would then be
       // measured over the wrong span.

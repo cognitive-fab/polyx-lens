@@ -1,0 +1,166 @@
+# Alphabet for ABCD (Chen et al. 2021). Reviewed artefact — edit here, never
+# in code, and bump `version` on any change (F2.2).
+#
+# Buttons and slot names come from ontology.json, which is vocabulary, not
+# guidance. guidelines.json and kb.json are the answer key and are never read
+# on this side of the boundary.
+#
+# `consequence` is a JUDGEMENT about what a button does to the customer, made
+# once here and reviewable by a domain expert (F3.1). v2 states it on ACV
+# 1.0's four-valued ordinal (docs/acv-1.0-spec.md §6.3):
+#   irreversible  a purchase is made, a team is notified, a link is sent
+#   compensable   money moves, an order or account changes, a password is issued
+#   reversible    (unused here — nothing this corpus does is unobserved)
+#   none          a lookup, a search, a note — never a mining subject (F3.2)
+#
+# `recommendable` (ACV §6.4) is a POLICY decision laid on top of that factual
+# one, required on every irreversible action. All three are declared `true`
+# here: sending a reset link, notifying a team and completing a purchase the
+# customer asked for are the routine resolutions of an ABCD ticket, and are
+# exactly what an advisor should be able to suggest. This is a
+# behaviour-preserving declaration, not a reviewed operational policy — a real
+# deployment is where some of these become false.
+#
+# v1 → v2 is a change of ENCODING only: `consequential: false` and
+# `reversibility: free` both became `none`, `costly` became `compensable`, and
+# no event moved between types. Every mined figure is unchanged; the version
+# bumped because the file did (F2.2).
+corpus: abcd
+version: 2
+
+event_types:
+  # the one classified customer turn per conversation — the scenario's subflow
+  # stands in for an intent classifier. Later customer turns are untyped.
+  - id: intent:${intent}
+    kind: customer_intent
+    match: { speaker: customer, intent: { pattern: '.+' } }
+    slots: []
+  - id: customer:utterance
+    match: { speaker: customer }
+    slots: []
+  - id: agent:utterance
+    match: { speaker: agent }
+    slots: []
+
+  # kb queries — guards, not subjects
+  - id: action:pull_up_account
+    label: pull up the account
+    match: { speaker: action, button: pull-up-account }
+    consequence: none
+  - id: action:verify_identity
+    label: verify the customer's identity
+    match: { speaker: action, button: verify-identity }
+    consequence: none
+  - id: action:validate_purchase
+    label: validate the purchase
+    match: { speaker: action, button: validate-purchase }
+    consequence: none
+  - id: action:ask_the_oracle
+    label: ask the oracle
+    match: { speaker: action, button: ask-the-oracle }
+    consequence: none
+  - id: action:enter_details
+    label: enter details
+    match: { speaker: action, button: enter-details }
+    consequence: none
+  - id: action:record_reason
+    label: record the reason
+    match: { speaker: action, button: record-reason }
+    consequence: none
+  - id: action:membership
+    label: note the membership level
+    match: { speaker: action, button: membership }
+    consequence: none
+    slots: [membership_level]
+  - id: action:shipping_status
+    label: note the shipping status
+    match: { speaker: action, button: shipping-status }
+    consequence: none
+    slots: [shipping_option]
+  - id: action:subscription_status
+    label: check the subscription status
+    match: { speaker: action, button: subscription-status }
+    consequence: none
+
+  # consequential interactions — the subjects
+  - id: action:offer_refund
+    label: offer a refund
+    match: { speaker: action, button: offer-refund }
+    consequence: compensable
+    slots: [amount]
+  - id: action:make_purchase
+    label: make a purchase
+    match: { speaker: action, button: make-purchase }
+    consequence: irreversible
+    recommendable: true
+    slots: [product]
+  - id: action:update_order
+    label: update the order
+    match: { speaker: action, button: update-order }
+    consequence: compensable
+  - id: action:update_account
+    label: update the account
+    match: { speaker: action, button: update-account }
+    consequence: compensable
+  - id: action:notify_team
+    label: notify a team
+    match: { speaker: action, button: notify-team }
+    consequence: irreversible
+    recommendable: true
+    slots: [company_team]
+  - id: action:send_link
+    label: send a link
+    match: { speaker: action, button: send-link }
+    consequence: irreversible
+    recommendable: true
+  - id: action:make_password
+    label: issue a new password
+    match: { speaker: action, button: make-password }
+    consequence: compensable
+  - id: action:promo_code
+    label: issue a promo code
+    match: { speaker: action, button: promo-code }
+    consequence: compensable
+
+  # faq / troubleshooting — free
+  - id: action:search_faq
+    match: { speaker: action, button: [search-faq, search-membership, search-pricing, search-policy, search-timing, search-boots, search-jeans, search-jacket, search-shirt] }
+    consequence: none
+  - id: action:select_faq
+    match: { speaker: action, button: select-faq }
+    consequence: none
+  - id: action:try_again
+    match: { speaker: action, button: try-again }
+    consequence: none
+  - id: action:log_out_in
+    match: { speaker: action, button: log-out-in }
+    consequence: none
+  - id: action:instructions
+    match: { speaker: action, button: instructions }
+    consequence: none
+
+outcomes:
+  # ABCD has no outcome labels. The one derivable signal is escalation.
+  - label: escalated
+    when: { any_event: action:notify_team }
+  - label: resolved
+    when: { closed_without: action:notify_team }
+
+redaction:
+  # Values are typed by human agents and even the "categorical" slots carry
+  # names now and then. So: everything is hashed unless it is a known value.
+  - { slot: amount, strategy: hash, unless_pattern: '^\d+(\.\d+)?$' }
+  - { slot: membership_level, strategy: hash, unless: [gold, silver, bronze, guest] }
+  - { slot: shipping_option, strategy: hash, unless: [order received, in transit, out for delivery, delivered] }
+  - { slot: company_team, strategy: hash, unless: [purchasing department, website team, manager, purchasing team, management] }
+  - { slot: product, strategy: hash, unless_pattern: '^(guess|calvin klein|michael kors|tommy hilfiger) (shirt|jeans|jacket|boots)$' }
+  # account facts (scenario), kept only within their known vocabularies
+  - { slot: customer.member_level, strategy: hash, unless: [gold, silver, bronze, guest] }
+  - { slot: order.payment_method, strategy: hash, unless: [credit card, paypal, debit card, gift card, prepaid card] }
+  - { slot: order.num_products, strategy: hash, unless_pattern: '^[0-9]$' }
+  - { slot: order.packaging, strategy: hash, unless: ['yes', 'no'] }
+  - { slot: order.state, strategy: hash, unless_pattern: '^[a-z]{2}$' }
+  - { slot: '*', strategy: hash }
+  - { pattern: email, strategy: hash }
+  - { pattern: phone, strategy: hash }
+  - { pattern: digits, strategy: hash, min_digits: 6 }

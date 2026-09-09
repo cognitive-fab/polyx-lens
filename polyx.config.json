@@ -6,7 +6,17 @@
       "adapter": "cc",
       "domain": "claude-code",
       "source": "fixtures/sample",
-      "alphabet": "alphabets/claude-code.yaml"
+      "alphabet": "alphabet.cc.yaml"
+    },
+    "synthetic": {
+      "adapter": "synthetic",
+      "source": "fixtures/synthetic/synthetic.json",
+      "alphabet": "alphabet.synthetic.yaml"
+    },
+    "abcd-fixture": {
+      "adapter": "abcd",
+      "source": "fixtures/abcd",
+      "alphabet": "alphabet.abcd.yaml"
     }
   }
 }

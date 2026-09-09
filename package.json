@@ -30,7 +30,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit -p tsconfig.test.json",
     "test": "node --no-warnings --test \"test/**/*.test.ts\"",
     "ci": "npm run typecheck && npm run build && npm test",
     "prepare": "npm run build"

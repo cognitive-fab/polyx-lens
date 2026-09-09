@@ -1,0 +1,112 @@
+# Alphabet for τ²-bench, retail domain. Reviewed artefact; bump `version` on
+# any change (F2.2). Tool names are the benchmark's; `consequence` is a
+# judgement made here once (F3.1), on ACV 1.0's ordinal (§6.3):
+#   irreversible  a cancellation, a transfer to a human
+#   compensable   a return, exchange or modification — money or goods move
+#   none          reads — never a mining subject (F3.2)
+#
+# `recommendable` (ACV §6.4) is declared true on both irreversible tools:
+# cancelling a pending order and handing off to a human are both things the
+# benchmark's agent is meant to do on request. Behaviour-preserving, not a
+# reviewed operational policy. v1 → v2 changed encoding only; no event moved
+# between types and no mined figure changed.
+corpus: tau2-retail
+version: 2
+
+event_types:
+  - id: customer:utterance
+    match: { speaker: customer }
+    slots: []
+  - id: agent:utterance
+    match: { speaker: agent }
+    slots: []
+  - id: system:tool_result
+    match: { speaker: system, event: tool_result }
+    slots: []
+
+  # authentication — the policy accepts either route, so both are one type
+  - id: action:authenticate
+    label: authenticate the user
+    match: { speaker: action, tool: [find_user_id_by_email, find_user_id_by_name_zip] }
+    consequence: none
+    slots: []
+
+  # reads — guards
+  - id: action:get_user_details
+    label: look up the user's profile
+    match: { speaker: action, tool: get_user_details }
+    consequence: none
+    slots: []
+  - id: action:get_order_details
+    label: look up the order
+    match: { speaker: action, tool: get_order_details }
+    consequence: none
+    slots: []
+  - id: action:get_product_details
+    label: look up the product
+    match: { speaker: action, tool: get_product_details }
+    consequence: none
+    slots: []
+  - id: action:list_all_product_types
+    label: list the product types
+    match: { speaker: action, tool: list_all_product_types }
+    consequence: none
+    slots: []
+  - id: action:calculate
+    label: calculate
+    match: { speaker: action, tool: calculate }
+    consequence: none
+    slots: []
+
+  # writes — the subjects
+  - id: action:cancel_pending_order
+    label: cancel the order
+    match: { speaker: action, tool: cancel_pending_order }
+    consequence: irreversible
+    recommendable: true
+    slots: [reason]
+  - id: action:modify_pending_order_items
+    label: modify the order's items
+    match: { speaker: action, tool: modify_pending_order_items }
+    consequence: compensable
+    slots: []
+  - id: action:modify_pending_order_address
+    label: modify the order's address
+    match: { speaker: action, tool: modify_pending_order_address }
+    consequence: compensable
+    slots: []
+  - id: action:modify_pending_order_payment
+    label: modify the order's payment
+    match: { speaker: action, tool: modify_pending_order_payment }
+    consequence: compensable
+    slots: []
+  - id: action:return_delivered_order_items
+    label: return the delivered items
+    match: { speaker: action, tool: return_delivered_order_items }
+    consequence: compensable
+    slots: []
+  - id: action:exchange_delivered_order_items
+    label: exchange the delivered items
+    match: { speaker: action, tool: exchange_delivered_order_items }
+    consequence: compensable
+    slots: []
+  - id: action:modify_user_address
+    label: modify the user's default address
+    match: { speaker: action, tool: modify_user_address }
+    consequence: compensable
+    slots: []
+  - id: action:transfer_to_human_agents
+    label: transfer to a human agent
+    match: { speaker: action, tool: transfer_to_human_agents }
+    consequence: irreversible
+    recommendable: true
+    slots: []
+
+outcomes: []   # the benchmark's verifier labels the outcome; the adapter carries it
+
+redaction:
+  - { slot: reason, strategy: hash, unless: [no longer needed, ordered by mistake] }
+  - { slot: '*', strategy: hash }
+  - { pattern: email, strategy: hash }
+  - { pattern: phone, strategy: hash }
+  - { pattern: digits, strategy: hash, min_digits: 6 }

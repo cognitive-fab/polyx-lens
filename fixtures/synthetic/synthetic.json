@@ -1,0 +1,2825 @@
+{
+ "corpus": "synthetic",
+ "interactions": [
+  {
+   "id": "syn-0001",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767603600000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "jane.doe@example.com",
+      "order_id": "ORD-1000"
+     },
+     "text": "Hi, my email is jane.doe@example.com and I want a refund on ORD-1000."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1000"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "add-note",
+     "slots": {
+      "note_len": 12
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 20,
+      "order_id": "ORD-1000"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to jane.doe@example.com."
+    }
+   ]
+  },
+  {
+   "id": "syn-0002",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767607200000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "raj.patel@example.org",
+      "order_id": "ORD-1001"
+     },
+     "text": "Hi, my email is raj.patel@example.org and I want a refund on ORD-1001."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-11223344"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1001"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 21,
+      "order_id": "ORD-1001"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to raj.patel@example.org."
+    }
+   ]
+  },
+  {
+   "id": "syn-0003",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767610800000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "jane.doe@example.com",
+      "order_id": "ORD-1002"
+     },
+     "text": "Hi, my email is jane.doe@example.com and I want a refund on ORD-1002."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1002"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 22,
+      "order_id": "ORD-1002"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to jane.doe@example.com."
+    }
+   ]
+  },
+  {
+   "id": "syn-0004",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767614400000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "raj.patel@example.org",
+      "order_id": "ORD-1003"
+     },
+     "text": "Hi, my email is raj.patel@example.org and I want a refund on ORD-1003."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-11223344"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1003"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "mystery-button",
+     "slots": {
+      "x": 1
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 23,
+      "order_id": "ORD-1003"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to raj.patel@example.org."
+    }
+   ]
+  },
+  {
+   "id": "syn-0005",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767618000000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "jane.doe@example.com",
+      "order_id": "ORD-1004"
+     },
+     "text": "Hi, my email is jane.doe@example.com and I want a refund on ORD-1004."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1004"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 24,
+      "order_id": "ORD-1004"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to jane.doe@example.com."
+    }
+   ]
+  },
+  {
+   "id": "syn-0006",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767621600000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "raj.patel@example.org",
+      "order_id": "ORD-1005"
+     },
+     "text": "Hi, my email is raj.patel@example.org and I want a refund on ORD-1005."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-11223344"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1005"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "add-note",
+     "slots": {
+      "note_len": 12
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 25,
+      "order_id": "ORD-1005"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to raj.patel@example.org."
+    }
+   ]
+  },
+  {
+   "id": "syn-0007",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767625200000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "jane.doe@example.com",
+      "order_id": "ORD-1006"
+     },
+     "text": "Hi, my email is jane.doe@example.com and I want a refund on ORD-1006."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1006"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 26,
+      "order_id": "ORD-1006"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to jane.doe@example.com."
+    }
+   ]
+  },
+  {
+   "id": "syn-0008",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767628800000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "raj.patel@example.org",
+      "order_id": "ORD-1007"
+     },
+     "text": "Hi, my email is raj.patel@example.org and I want a refund on ORD-1007."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1007"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 27,
+      "order_id": "ORD-1007"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to raj.patel@example.org."
+    }
+   ]
+  },
+  {
+   "id": "syn-0009",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767632400000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "jane.doe@example.com",
+      "order_id": "ORD-1008"
+     },
+     "text": "Hi, my email is jane.doe@example.com and I want a refund on ORD-1008."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1008"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 28,
+      "order_id": "ORD-1008"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to jane.doe@example.com."
+    }
+   ]
+  },
+  {
+   "id": "syn-0010",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767636000000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "raj.patel@example.org",
+      "order_id": "ORD-1009"
+     },
+     "text": "Hi, my email is raj.patel@example.org and I want a refund on ORD-1009."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-11223344"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1009"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 29,
+      "order_id": "ORD-1009"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to raj.patel@example.org."
+    }
+   ]
+  },
+  {
+   "id": "syn-0011",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767639600000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "jane.doe@example.com",
+      "order_id": "ORD-1010"
+     },
+     "text": "Hi, my email is jane.doe@example.com and I want a refund on ORD-1010."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1010"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "add-note",
+     "slots": {
+      "note_len": 12
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 30,
+      "order_id": "ORD-1010"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to jane.doe@example.com."
+    }
+   ]
+  },
+  {
+   "id": "syn-0012",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767643200000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "raj.patel@example.org",
+      "order_id": "ORD-1011"
+     },
+     "text": "Hi, my email is raj.patel@example.org and I want a refund on ORD-1011."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-11223344"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1011"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 31,
+      "order_id": "ORD-1011"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "system",
+     "event": "telemetry-ping",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to raj.patel@example.org."
+    }
+   ]
+  },
+  {
+   "id": "syn-0013",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767646800000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "jane.doe@example.com",
+      "order_id": "ORD-1012"
+     },
+     "text": "Hi, my email is jane.doe@example.com and I want a refund on ORD-1012."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1012"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 32,
+      "order_id": "ORD-1012"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to jane.doe@example.com."
+    }
+   ]
+  },
+  {
+   "id": "syn-0014",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767650400000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "raj.patel@example.org",
+      "order_id": "ORD-1013"
+     },
+     "text": "Hi, my email is raj.patel@example.org and I want a refund on ORD-1013."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-11223344"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1013"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 33,
+      "order_id": "ORD-1013"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to raj.patel@example.org."
+    }
+   ]
+  },
+  {
+   "id": "syn-0015",
+   "operator": "op-beta",
+   "team": "t-beta",
+   "agent": "b1",
+   "startedAt": 1767654000000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "jane.doe@example.com",
+      "order_id": "ORD-1014"
+     },
+     "text": "Hi, my email is jane.doe@example.com and I want a refund on ORD-1014."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1014"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 34,
+      "order_id": "ORD-1014"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to jane.doe@example.com."
+    }
+   ]
+  },
+  {
+   "id": "syn-0016",
+   "operator": "op-beta",
+   "team": "t-beta",
+   "agent": "b1",
+   "startedAt": 1767657600000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "raj.patel@example.org",
+      "order_id": "ORD-1015"
+     },
+     "text": "Hi, my email is raj.patel@example.org and I want a refund on ORD-1015."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-11223344"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1015"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "add-note",
+     "slots": {
+      "note_len": 12
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 35,
+      "order_id": "ORD-1015"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to raj.patel@example.org."
+    }
+   ]
+  },
+  {
+   "id": "syn-0017",
+   "operator": "op-beta",
+   "team": "t-beta",
+   "agent": "b1",
+   "startedAt": 1767661200000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "jane.doe@example.com",
+      "order_id": "ORD-1016"
+     },
+     "text": "Hi, my email is jane.doe@example.com and I want a refund on ORD-1016."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1016"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 36,
+      "order_id": "ORD-1016"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to jane.doe@example.com."
+    }
+   ]
+  },
+  {
+   "id": "syn-0018",
+   "operator": "op-beta",
+   "team": "t-beta",
+   "agent": "b1",
+   "startedAt": 1767664800000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "raj.patel@example.org",
+      "order_id": "ORD-1017"
+     },
+     "text": "Hi, my email is raj.patel@example.org and I want a refund on ORD-1017."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-11223344"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1017"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 37,
+      "order_id": "ORD-1017"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to raj.patel@example.org."
+    }
+   ]
+  },
+  {
+   "id": "syn-0019",
+   "operator": "op-beta",
+   "team": "t-beta",
+   "agent": "b1",
+   "startedAt": 1767668400000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "jane.doe@example.com",
+      "order_id": "ORD-1018"
+     },
+     "text": "Hi, my email is jane.doe@example.com and I want a refund on ORD-1018."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1018"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 38,
+      "order_id": "ORD-1018"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to jane.doe@example.com."
+    }
+   ]
+  },
+  {
+   "id": "syn-0020",
+   "operator": "op-beta",
+   "team": "t-beta",
+   "agent": "b1",
+   "startedAt": 1767672000000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "refund_request",
+     "slots": {
+      "email": "raj.patel@example.org",
+      "order_id": "ORD-1019"
+     },
+     "text": "Hi, my email is raj.patel@example.org and I want a refund on ORD-1019."
+    },
+    {
+     "speaker": "agent",
+     "text": "Sure, let me look that up for you."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-11223344"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "lookup-order",
+     "slots": {
+      "order_id": "ORD-1019"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "issue-refund",
+     "slots": {
+      "amount": 39,
+      "order_id": "ORD-1019"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "refund-ok",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "Done — the refund is on its way to raj.patel@example.org."
+    }
+   ]
+  },
+  {
+   "id": "syn-0021",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767675600000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+1-555-0100-7788",
+      "product_type": "mortgage"
+     },
+     "text": "What rate can you give me? Call me on +1-555-0100-7788."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the mortgage rates."
+    },
+    {
+     "speaker": "action",
+     "button": "disclose-terms",
+     "slots": {
+      "product_type": "mortgage"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 3.5,
+      "product_type": "mortgage"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0022",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767679200000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+44 20 7946 0958",
+      "product_type": "savings"
+     },
+     "text": "What rate can you give me? Call me on +44 20 7946 0958."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the savings rates."
+    },
+    {
+     "speaker": "action",
+     "button": "disclose-terms",
+     "slots": {
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 3.75,
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0023",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767682800000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+1-555-0100-7788",
+      "product_type": "savings"
+     },
+     "text": "What rate can you give me? Call me on +1-555-0100-7788."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the savings rates."
+    },
+    {
+     "speaker": "action",
+     "button": "disclose-terms",
+     "slots": {
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 4,
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "mystery-button",
+     "slots": {
+      "x": 2
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0024",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767686400000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+44 20 7946 0958",
+      "product_type": "mortgage"
+     },
+     "text": "What rate can you give me? Call me on +44 20 7946 0958."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the mortgage rates."
+    },
+    {
+     "speaker": "action",
+     "button": "disclose-terms",
+     "slots": {
+      "product_type": "mortgage"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 4.25,
+      "product_type": "mortgage"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0025",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767690000000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+1-555-0100-7788",
+      "product_type": "savings"
+     },
+     "text": "What rate can you give me? Call me on +1-555-0100-7788."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the savings rates."
+    },
+    {
+     "speaker": "action",
+     "button": "disclose-terms",
+     "slots": {
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 3.5,
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0026",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767693600000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+44 20 7946 0958",
+      "product_type": "savings"
+     },
+     "text": "What rate can you give me? Call me on +44 20 7946 0958."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the savings rates."
+    },
+    {
+     "speaker": "action",
+     "button": "disclose-terms",
+     "slots": {
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 3.75,
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0027",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767697200000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+1-555-0100-7788",
+      "product_type": "mortgage"
+     },
+     "text": "What rate can you give me? Call me on +1-555-0100-7788."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the mortgage rates."
+    },
+    {
+     "speaker": "action",
+     "button": "disclose-terms",
+     "slots": {
+      "product_type": "mortgage"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 4,
+      "product_type": "mortgage"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0028",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767700800000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+44 20 7946 0958",
+      "product_type": "savings"
+     },
+     "text": "What rate can you give me? Call me on +44 20 7946 0958."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the savings rates."
+    },
+    {
+     "speaker": "action",
+     "button": "disclose-terms",
+     "slots": {
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 4.25,
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0029",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767704400000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+1-555-0100-7788",
+      "product_type": "savings"
+     },
+     "text": "What rate can you give me? Call me on +1-555-0100-7788."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the savings rates."
+    },
+    {
+     "speaker": "action",
+     "button": "disclose-terms",
+     "slots": {
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 3.5,
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0030",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767708000000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+44 20 7946 0958",
+      "product_type": "mortgage"
+     },
+     "text": "What rate can you give me? Call me on +44 20 7946 0958."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the mortgage rates."
+    },
+    {
+     "speaker": "action",
+     "button": "disclose-terms",
+     "slots": {
+      "product_type": "mortgage"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 3.75,
+      "product_type": "mortgage"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0031",
+   "operator": "op-beta",
+   "team": "t-beta",
+   "agent": "b1",
+   "startedAt": 1767711600000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+1-555-0100-7788",
+      "product_type": "savings"
+     },
+     "text": "What rate can you give me? Call me on +1-555-0100-7788."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the savings rates."
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 4,
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0032",
+   "operator": "op-beta",
+   "team": "t-beta",
+   "agent": "b1",
+   "startedAt": 1767715200000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+44 20 7946 0958",
+      "product_type": "savings"
+     },
+     "text": "What rate can you give me? Call me on +44 20 7946 0958."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the savings rates."
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 4.25,
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0033",
+   "operator": "op-beta",
+   "team": "t-beta",
+   "agent": "b1",
+   "startedAt": 1767718800000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+1-555-0100-7788",
+      "product_type": "mortgage"
+     },
+     "text": "What rate can you give me? Call me on +1-555-0100-7788."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the mortgage rates."
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 3.5,
+      "product_type": "mortgage"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0034",
+   "operator": "op-beta",
+   "team": "t-beta",
+   "agent": "b1",
+   "startedAt": 1767722400000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+44 20 7946 0958",
+      "product_type": "savings"
+     },
+     "text": "What rate can you give me? Call me on +44 20 7946 0958."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the savings rates."
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 3.75,
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0035",
+   "operator": "op-beta",
+   "team": "t-beta",
+   "agent": "b1",
+   "startedAt": 1767726000000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+1-555-0100-7788",
+      "product_type": "savings"
+     },
+     "text": "What rate can you give me? Call me on +1-555-0100-7788."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the savings rates."
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 4,
+      "product_type": "savings"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0036",
+   "operator": "op-beta",
+   "team": "t-beta",
+   "agent": "b1",
+   "startedAt": 1767729600000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "rate_enquiry",
+     "slots": {
+      "phone": "+44 20 7946 0958",
+      "product_type": "mortgage"
+     },
+     "text": "What rate can you give me? Call me on +44 20 7946 0958."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me check the mortgage rates."
+    },
+    {
+     "speaker": "action",
+     "button": "quote-rate",
+     "slots": {
+      "rate": 4.25,
+      "product_type": "mortgage"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That is the best rate we can offer today."
+    }
+   ]
+  },
+  {
+   "id": "syn-0037",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767733200000,
+   "outcome": "escalated",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "complaint",
+     "slots": {
+      "account_id": "ACC-99887766"
+     },
+     "text": "This is unacceptable. My account ACC-99887766 was charged twice."
+    },
+    {
+     "speaker": "agent",
+     "text": "I am sorry to hear that."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "offer-credit",
+     "slots": {
+      "amount": 10
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "escalate",
+     "slots": {
+      "reason": "billing"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "I have escalated this to a supervisor."
+    }
+   ]
+  },
+  {
+   "id": "syn-0038",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767736800000,
+   "outcome": "escalated",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "complaint",
+     "slots": {
+      "account_id": "ACC-11223344"
+     },
+     "text": "This is unacceptable. My account ACC-11223344 was charged twice."
+    },
+    {
+     "speaker": "agent",
+     "text": "I am sorry to hear that."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-11223344"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "offer-credit",
+     "slots": {
+      "amount": 10
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "escalate",
+     "slots": {
+      "reason": "billing"
+     }
+    },
+    {
+     "speaker": "system",
+     "event": "telemetry-ping",
+     "result": "ok"
+    },
+    {
+     "speaker": "agent",
+     "text": "I have escalated this to a supervisor."
+    }
+   ]
+  },
+  {
+   "id": "syn-0039",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767740400000,
+   "outcome": "escalated",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "complaint",
+     "slots": {
+      "account_id": "ACC-99887766"
+     },
+     "text": "This is unacceptable. My account ACC-99887766 was charged twice."
+    },
+    {
+     "speaker": "agent",
+     "text": "I am sorry to hear that."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "offer-credit",
+     "slots": {
+      "amount": 10
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "escalate",
+     "slots": {
+      "reason": "billing"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "I have escalated this to a supervisor."
+    }
+   ]
+  },
+  {
+   "id": "syn-0040",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a2",
+   "startedAt": 1767744000000,
+   "outcome": "escalated",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "complaint",
+     "slots": {
+      "account_id": "ACC-11223344"
+     },
+     "text": "This is unacceptable. My account ACC-11223344 was charged twice."
+    },
+    {
+     "speaker": "agent",
+     "text": "I am sorry to hear that."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-11223344"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "offer-credit",
+     "slots": {
+      "amount": 10
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "escalate",
+     "slots": {
+      "reason": "billing"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "I have escalated this to a supervisor."
+    }
+   ]
+  },
+  {
+   "id": "syn-0041",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767747600000,
+   "outcome": "escalated",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "complaint",
+     "slots": {
+      "account_id": "ACC-99887766"
+     },
+     "text": "This is unacceptable. My account ACC-99887766 was charged twice."
+    },
+    {
+     "speaker": "agent",
+     "text": "I am sorry to hear that."
+    },
+    {
+     "speaker": "action",
+     "button": "verify-identity",
+     "slots": {
+      "account_id": "ACC-99887766"
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "offer-credit",
+     "slots": {
+      "amount": 10
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "escalate",
+     "slots": {
+      "reason": "billing"
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "I have escalated this to a supervisor."
+    }
+   ]
+  },
+  {
+   "id": "syn-0042",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767751200000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "billing_dispute",
+     "slots": {
+      "account_id": "ACC-99887766"
+     },
+     "text": "My credit keeps flipping."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me sort that out."
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That should be settled now."
+    }
+   ]
+  },
+  {
+   "id": "syn-0043",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767754800000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "billing_dispute",
+     "slots": {
+      "account_id": "ACC-11223344"
+     },
+     "text": "My credit keeps flipping."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me sort that out."
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That should be settled now."
+    }
+   ]
+  },
+  {
+   "id": "syn-0044",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767758400000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "billing_dispute",
+     "slots": {
+      "account_id": "ACC-99887766"
+     },
+     "text": "My credit keeps flipping."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me sort that out."
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That should be settled now."
+    }
+   ]
+  },
+  {
+   "id": "syn-0045",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767762000000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "billing_dispute",
+     "slots": {
+      "account_id": "ACC-11223344"
+     },
+     "text": "My credit keeps flipping."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me sort that out."
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That should be settled now."
+    }
+   ]
+  },
+  {
+   "id": "syn-0046",
+   "operator": "op-alpha",
+   "team": "t-alpha",
+   "agent": "a1",
+   "startedAt": 1767765600000,
+   "outcome": "resolved",
+   "turns": [
+    {
+     "speaker": "customer",
+     "intent": "billing_dispute",
+     "slots": {
+      "account_id": "ACC-99887766"
+     },
+     "text": "My credit keeps flipping."
+    },
+    {
+     "speaker": "agent",
+     "text": "Let me sort that out."
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "apply-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "action",
+     "button": "reverse-credit",
+     "slots": {
+      "amount": 5
+     }
+    },
+    {
+     "speaker": "agent",
+     "text": "That should be settled now."
+    }
+   ]
+  }
+ ]
+}
