@@ -294,3 +294,15 @@ export function isStale(p: Predicate, corpusRevision: string, alphabetVersion: n
   if (!c) return true;
   return c.corpusRevision !== corpusRevision || c.alphabetVersion !== alphabetVersion;
 }
+
+/**
+ * JF4.3 — the `obs.*` facts a rule's conditions mention that no `real`,
+ * calibrated predicate produces. A rule that depends on one cannot be
+ * adjudicated real: it would be served, its condition would be unknown at
+ * every request, and it would abstain forever while looking like a rule in
+ * service. The dependency is checked at adjudication time and named.
+ */
+export function unproducedFacts(conditions: ReadonlyArray<{ fact: string }>, set: PredicateSet | null): string[] {
+  const produced = new Set(set ? activePredicates(set).map((p) => p.fact) : []);
+  return [...new Set(conditions.map((c) => c.fact).filter((f) => f.startsWith('obs.') && !produced.has(f)))].sort();
+}

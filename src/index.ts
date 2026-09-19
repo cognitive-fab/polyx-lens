@@ -127,6 +127,7 @@ export {
   isStale,
   loadPredicateSet,
   parsePredicateSet,
+  unproducedFacts,
   PredicateSetError,
   type PredicateSet,
   type PredicateWarning,
