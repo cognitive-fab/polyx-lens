@@ -87,3 +87,14 @@ export function builtinPredicates(corpusFamily: string): string | null {
   const file = join(alphabetsDir(), `predicates.${corpusFamily.replace(/:/g, '-')}.yaml`);
   return existsSync(file) ? file : null;
 }
+
+/**
+ * The text redaction profile shipped for a corpus family, or `null`. Keyed
+ * as the alphabet and the predicate set are. Absent means the corpus cannot
+ * be annotated, and `annotate` refuses it by name (JT7.2) — failing closed is
+ * the point, not an inconvenience.
+ */
+export function builtinTextProfile(corpusFamily: string): string | null {
+  const file = join(alphabetsDir(), `text.${corpusFamily.replace(/:/g, '-')}.yaml`);
+  return existsSync(file) ? file : null;
+}

@@ -21,11 +21,11 @@
 corpus: cc
 version: 1
 model: jev-latest
-# Free text has never been persisted by this pipeline, so a profile for text
-# does not exist yet — W4.1 builds it. Until it does, `polyx annotate` refuses
-# this corpus, which is the intended failure: the profile is the artefact a
-# compliance reviewer reads before a key is ever configured (JT7.3).
-redaction: text-profile-pending
+# The text redaction profile every payload leaves under (JT7.1): text.cc.yaml
+# beside this file. `polyx annotate cc --dry-run` writes every payload as it
+# would be sent under it and sends nothing — the artefact a compliance
+# reviewer reads before a key is ever configured (JT7.3).
+redaction: text.cc@1
 
 predicates:
   # --- the five that mining could not reach -------------------------------

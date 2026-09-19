@@ -1,0 +1,29 @@
+# Text redaction profile for Claude Code sessions (JT7.1).
+#
+# A session transcript is prose about a person's own machine: paths that name
+# their home directory and their projects, URLs, branch names, the occasional
+# key pasted into a message. The slot redactor already tokenises `file` so
+# that "read it before you edit it" stays a rule about one file; the path
+# rule here is keyed `as: file` so a path in a message and the same path in
+# `slot.file` become ONE token, and a predicate can relate what was said to
+# what was done.
+#
+# This is the artefact a compliance reviewer reads before a key exists:
+# `polyx annotate cc --dry-run` writes every payload as it would be sent,
+# under this profile, and sends nothing (JT7.3).
+corpus: cc
+version: 1
+rules:
+  - { pattern: email, strategy: token }
+  - { pattern: url, strategy: token }
+  - { pattern: path, strategy: token, as: file }
+  # Claude Code's own encoding of a project directory — the path with every
+  # separator turned into a dash, `C--Users-<name>-code-<project>`. Not a path
+  # to the path rule, and it names the person and the project as plainly as
+  # one. The first dry run over the real corpus found it in four payloads
+  # after everything else was caught.
+  - { pattern: literal, match: '\b[A-Za-z]--(?:Users|home)-[\w.-]+', strategy: token, as: project }
+  # Anything that looks like a credential. Loose on purpose.
+  - { pattern: literal, match: '\b(?:sk|pk|ghp|gho|xox[abp]|AKIA)[-_A-Za-z0-9]{12,}\b', strategy: drop, as: secret }
+  - { pattern: phone, strategy: hash }
+  - { pattern: digits, strategy: hash, minDigits: 9 }

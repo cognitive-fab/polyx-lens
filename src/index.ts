@@ -131,6 +131,23 @@ export {
   type PredicateSet,
   type PredicateWarning,
 } from './ports/predicates.ts';
+// The annotation store: recorded answers, sorted and digested, so mining stays
+// byte-for-byte reproducible after a model has been consulted.
+export {
+  annotationPath,
+  diffAnnotations,
+  digestOf,
+  factsAt as observedFactsAt,
+  indexAnnotations,
+  readAnnotations,
+  serialiseLines,
+  siteKey,
+  sortLines,
+  writeAnnotations,
+  type AnnotationDiff,
+  type AnnotationFile,
+  type AnnotationLine,
+} from './ports/annotations.ts';
 // Band derivation: bands come from a labelled sample, never from a hand.
 export {
   blocksAdjudication,
@@ -142,6 +159,24 @@ export {
   type DeriveOptions,
   type Observed,
 } from './ports/calibrate.ts';
+// The slot redactor, so the join between a text surrogate and a slot surrogate
+// can be asserted against the real thing rather than a re-implementation.
+export { redactSlots, type RedactionConfig, type RedactionRule, type Strategy } from './alphabet/redact.ts';
+// Text redaction. The slot redactor never sees text; a predicate reads it, so
+// a second, per-corpus profile governs what a predicate may see and what may
+// leave the machine. Its id is on every annotation line.
+export {
+  loadTextProfile,
+  parseTextProfile,
+  previewRedaction,
+  profileId,
+  redactText,
+  TextProfileError,
+  type RedactionPreview,
+  type TextPattern,
+  type TextProfile,
+  type TextRule,
+} from './alphabet/text.ts';
 // Text resolution. The canonical record deliberately carries no text; this is
 // how a predicate reads one, per adapter, without weakening that.
 export {
@@ -166,7 +201,7 @@ export { evalAll, evalCondition, renderCondition, type FactBase, type Truth } fr
 
 // The lens itself.
 export { loadContracts, parseContracts, type Contract, type ContractSet } from './lens/contracts.ts';
-export { alphabetsDir, builtinAlphabet, builtinContracts, builtinPredicates, contractsDir, fixturesDir, packageRoot } from './lens/builtin.ts';
+export { alphabetsDir, builtinAlphabet, builtinContracts, builtinPredicates, builtinTextProfile, contractsDir, fixturesDir, packageRoot } from './lens/builtin.ts';
 export { claudeProjectsDir, localCorpus, type LocalCorpus } from './lens/local.ts';
 export { exerciseClauses, inventory, type ActionCount, type ClauseExercise } from './lens/check.ts';
 export { buildReport, renderReport, type LensReport } from './lens/report.ts';
