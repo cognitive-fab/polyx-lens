@@ -18,6 +18,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { cmp } from '../order.ts';
+import type { Subject } from './subjects.ts';
 
 export interface AnnotationLine {
   /** interactionId */
@@ -184,4 +185,58 @@ export function diffAnnotations(before: AnnotationFile, after: AnnotationFile, j
     onlyAfter: after.lines.length - shared,
     byPredicate,
   };
+}
+
+/**
+ * Attach the recorded observations to extracted subjects, in place, before
+ * the miner reads a single fact base.
+ *
+ * An instance is a consequential ACTION, and an action carries no text. The
+ * text a predicate read is on the customer's turn earlier in the episode —
+ * which is not an instance — so an observation has to be LIFTED into the
+ * instance's fact base from the sites before it, exactly as a slot value
+ * "seen earlier in the same episode" is. Strictly before: the action's own
+ * site is excluded, for the same reason its own slots are — a rule may not
+ * condition on the arguments of the action it governs. Later sites win.
+ *
+ * BEFORE is load-bearing. `instanceFacts` memoises by instance, so an
+ * instance whose fact base was read before its observations were attached
+ * would keep serving the pre-observation one, silently, for the rest of the
+ * run. Doing this immediately after extraction is the only order that cannot
+ * produce that bug.
+ *
+ * Every line is attached, withheld ones included, as `null`: the miner needs
+ * to know the predicate was ASKED to count absence as evidence (G2).
+ */
+export function attachObservations(subjects: Subject[], file: AnnotationFile): { sites: number; observed: number } {
+  // Lines per episode, in site order, so lifting is one ordered scan.
+  const byEpisode = new Map<string, AnnotationLine[]>();
+  for (const l of sortLines(file.lines)) {
+    const k = `${l.i} ${l.e}`;
+    let a = byEpisode.get(k);
+    if (!a) byEpisode.set(k, (a = []));
+    a.push(l);
+  }
+  let sites = 0;
+  let observed = 0;
+  for (const s of subjects) {
+    for (const i of s.instances) {
+      const lines = byEpisode.get(`${i.interactionId} ${i.episodeId}`);
+      if (!lines) continue;
+      const o: Record<string, boolean | null> = {};
+      let any = false;
+      for (const l of lines) {
+        if (l.seq >= i.seq) break;
+        any = true;
+        // Later sites overwrite, but a withholding never overwrites an
+        // emitted fact: "asked again and unsure" is not "retracted".
+        if (l.value !== null || !(l.fact in o)) o[l.fact] = l.value;
+      }
+      if (!any) continue;
+      i.observed = o;
+      sites++;
+      observed += Object.values(o).filter((v) => v !== null).length;
+    }
+  }
+  return { sites, observed };
 }

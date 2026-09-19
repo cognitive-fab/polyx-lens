@@ -29,6 +29,14 @@ export interface Instance {
   outcome?: Interaction['outcome'];
   /** Customer state at the start of the contact — the fact base data conditions are mined over. */
   facts?: Record<string, Scalar>;
+  /**
+   * Observed facts at this site, from the annotation store (JF5.1): `obs.*`
+   * keyed, `true`/`false` emitted, `null` RECORDED AS WITHHELD. The null is
+   * kept on purpose — it never reaches the fact base, but it tells the miner
+   * the predicate was asked here, which is what makes an assert-only fact
+   * a candidate condition at all (G2).
+   */
+  observed?: Record<string, boolean | null>;
 }
 
 export interface Subject {

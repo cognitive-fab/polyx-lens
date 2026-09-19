@@ -135,6 +135,7 @@ export {
 // byte-for-byte reproducible after a model has been consulted.
 export {
   annotationPath,
+  attachObservations,
   diffAnnotations,
   digestOf,
   factsAt as observedFactsAt,
