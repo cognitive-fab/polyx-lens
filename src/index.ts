@@ -118,6 +118,19 @@ export {
   type PredicateWindow,
   type Quadrant,
 } from './ports/observation.ts';
+// The predicate set: declared, reviewed, versioned artefacts, under the same
+// discipline as the alphabet. Parsed in the free half because an annotation
+// line is uninterpretable without them.
+export {
+  activePredicates,
+  inertPredicates,
+  isStale,
+  loadPredicateSet,
+  parsePredicateSet,
+  PredicateSetError,
+  type PredicateSet,
+  type PredicateWarning,
+} from './ports/predicates.ts';
 // Text resolution. The canonical record deliberately carries no text; this is
 // how a predicate reads one, per adapter, without weakening that.
 export {
@@ -142,7 +155,7 @@ export { evalAll, evalCondition, renderCondition, type FactBase, type Truth } fr
 
 // The lens itself.
 export { loadContracts, parseContracts, type Contract, type ContractSet } from './lens/contracts.ts';
-export { alphabetsDir, builtinAlphabet, builtinContracts, contractsDir, fixturesDir, packageRoot } from './lens/builtin.ts';
+export { alphabetsDir, builtinAlphabet, builtinContracts, builtinPredicates, contractsDir, fixturesDir, packageRoot } from './lens/builtin.ts';
 export { claudeProjectsDir, localCorpus, type LocalCorpus } from './lens/local.ts';
 export { exerciseClauses, inventory, type ActionCount, type ClauseExercise } from './lens/check.ts';
 export { buildReport, renderReport, type LensReport } from './lens/report.ts';

@@ -71,3 +71,19 @@ export function builtinAlphabet(name: string): string | null {
   const file = join(alphabetsDir(), name);
   return existsSync(file) ? file : null;
 }
+
+/**
+ * The predicate set shipped for a corpus family, or `null` when none is.
+ *
+ * Keyed by the alphabet's corpus family rather than the configured corpus
+ * name, for the same reason the alphabet is: `cc` and `cc-mimo` are both
+ * Claude Code under one set of declared predicates, and two copies of a
+ * reviewed artefact drift.
+ *
+ * Absent is normal and is not an error. A corpus with no predicate set is a
+ * corpus that mines exactly as it does today (JF6.5).
+ */
+export function builtinPredicates(corpusFamily: string): string | null {
+  const file = join(alphabetsDir(), `predicates.${corpusFamily.replace(/:/g, '-')}.yaml`);
+  return existsSync(file) ? file : null;
+}

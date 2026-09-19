@@ -20,6 +20,20 @@ export interface Manifest {
   seed: number;
   codeCommit: string | null;
   segmenter: string;
+  /**
+   * Observation (JF6.2). Present only on a run that read annotations.
+   *
+   * `predicateSetVersion` pins the declared questions and their bands;
+   * `annotationDigest` pins the recorded answers, and is computed exactly as
+   * `corpusRevision` is so the two read alike in a manifest. A figure carrying
+   * both is reproducible by anyone holding that annotation file, with no key
+   * and no network — which is the whole reason the model is called in a
+   * separate pass rather than during mining.
+   */
+  predicateSetVersion?: number;
+  annotationDigest?: string;
+  /** A pass that stopped on its budget (JT8.5). The figure is still usable; it is not complete. */
+  annotationPartial?: boolean;
   /** Generated corpora only: what produced the trajectories. */
   backbone?: string;
   policyRevision?: string;
