@@ -131,6 +131,17 @@ export {
   type PredicateSet,
   type PredicateWarning,
 } from './ports/predicates.ts';
+// Band derivation: bands come from a labelled sample, never from a hand.
+export {
+  blocksAdjudication,
+  calibrationRecord,
+  deriveBands,
+  modes,
+  type CalibrationLimits,
+  type DerivedBands,
+  type DeriveOptions,
+  type Observed,
+} from './ports/calibrate.ts';
 // Text resolution. The canonical record deliberately carries no text; this is
 // how a predicate reads one, per adapter, without weakening that.
 export {
