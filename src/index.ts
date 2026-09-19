@@ -89,6 +89,49 @@ export {
   type SubjectExtractor,
 } from './ports/subjects.ts';
 export { simpleClassifier, type Elsewhere, type ProvenanceClassifier } from './ports/provenance.ts';
+// The observation port. Its second implementation is the Jev adapter, which
+// lives in polyx because it holds a paid third-party dependency and a network
+// call — keeping it out of this package means the Apache-2.0 half makes no
+// network call at all, under any configuration, which `check:offline` proves
+// rather than promises.
+export {
+  checkSeparation,
+  emit,
+  isAssertOnly,
+  isInert,
+  nullObserver,
+  observedFacts,
+  separation,
+  validateBands,
+  PredicateError,
+  JITTER,
+  MIN_BAND_WIDTH,
+  MIN_LABEL_SEPARATION,
+  PROHIBITED_QUADRANT,
+  QUANTUM,
+  type Bands,
+  type Calibration,
+  type Observation,
+  type Observer,
+  type Predicate,
+  type PredicateStatus,
+  type PredicateWindow,
+  type Quadrant,
+} from './ports/observation.ts';
+// Text resolution. The canonical record deliberately carries no text; this is
+// how a predicate reads one, per adapter, without weakening that.
+export {
+  abcdTextSource,
+  annotatableAdapters,
+  ccTextSource,
+  joinEpisodeText,
+  nullTextSource,
+  registerTextSource,
+  slotText,
+  syntheticTextSource,
+  textSourceFor,
+  type TextSource,
+} from './ports/text.ts';
 export { polynessSegmenter } from './ports/polyness/segmenter.ts';
 export { polynessExtractor } from './ports/polyness/subjects.ts';
 export { polynessClassifier } from './ports/polyness/provenance.ts';

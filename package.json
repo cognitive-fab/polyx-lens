@@ -32,8 +32,9 @@
     "build": "tsc",
     "typecheck": "tsc --noEmit -p tsconfig.test.json",
     "test": "node --no-warnings --test \"test/**/*.test.ts\"",
-    "ci": "npm run typecheck && npm run build && npm test",
-    "prepare": "npm run build"
+    "ci": "npm run typecheck && npm run check:offline && npm run build && npm test",
+    "prepare": "npm run build",
+    "check:offline": "node --no-warnings scripts/check-offline.mjs"
   },
   "dependencies": {
     "polyness": "file:vendor/polyness",
