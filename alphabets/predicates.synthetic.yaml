@@ -1,0 +1,50 @@
+# Observation predicates for the synthetic family (JT9.4).
+#
+# One predicate, adjudicated real and calibrated against the OBSERVABLE
+# fixture (fixtures/synthetic-observable). It is the oracle for the whole
+# observation path — predicate to fact to rule — and it runs offline: the
+# annotation file beside that fixture is what `polyx annotate` would have
+# written had a model been asked, produced by a stub that reads the text.
+#
+# The calibration record names the observable fixture's revision. Against the
+# MAIN synthetic fixture that record is STALE (JF3.5), so the predicate is
+# inert there and the main fixture mines exactly as it always has. That is
+# not a workaround; it is the staleness rule doing what it is for, and
+# `polyx predicates synthetic` will say so.
+#
+# The record's numbers are stated, not derived: the stub is a substring test,
+# and a derivation over its output would be a derivation over a regular
+# expression. What the fixture proves is the path, not the calibration.
+
+corpus: synthetic
+version: 1
+model: stub
+redaction: text.synthetic@1
+
+predicates:
+  - id: states_double_charge
+    fact: obs.states_double_charge
+    status: real
+    quadrant: text-unknown
+    source: event.text
+    window: event
+    question: >
+      Does this message state that the customer was charged twice for the
+      same thing?
+    criteria:
+      true: The message says a charge was taken twice, doubled, or duplicated.
+      false: The message complains about something else, or states no double charge.
+    bands:
+      assertAt: 0.85
+      refuteAt: -1
+    calibration:
+      at: '2026-09-19'
+      corpusRevision: 19b8a0f0651bb6dc
+      alphabetVersion: 2
+      n: 60
+      labels: { true: 30, false: 30 }
+      assertPrecision: 1
+      refutePrecision: null
+      withheldFraction: 0.5
+      labelSeparation: 0.91
+      reviewer: fixture

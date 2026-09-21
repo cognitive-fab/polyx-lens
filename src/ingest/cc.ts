@@ -249,7 +249,7 @@ export function verbOf(segment: string): { verb: string; sub?: string } | null {
 
 /**
  * The operator id for a transcript directory. Claude Code names these after the
- * working directory, so `C--Users-jjdub-code-polyx` is the polyx repository.
+ * working directory, so `C--Users-someone-code-polyx` is the polyx repository.
  * The user's own path prefix is stripped — it identifies a person, it is the
  * same for every row, and it would only travel into figures.
  */

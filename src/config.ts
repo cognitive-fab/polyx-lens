@@ -12,7 +12,7 @@
 //   }
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import { builtinAlphabet } from './lens/builtin.ts';
+import { builtinAlphabet, fixturesDir } from './lens/builtin.ts';
 import { withThresholds, type Thresholds } from './thresholds.ts';
 
 export interface CorpusConfig {
@@ -89,6 +89,19 @@ function resolveAlphabet(root: string, spec: string): string {
   return resolve(root, spec);
 }
 
+/**
+ * `fixture:<path>` names a corpus shipped with polyx-lens, wherever the
+ * package installed. Anything else is a path from the config file. The
+ * prefix exists so that the first command a reader runs from the README —
+ * `polyx audit synthetic` — works on a fresh checkout without them knowing
+ * where node_modules put the fixture, and so the walkthrough corpora are
+ * named the same way in every checkout.
+ */
+function resolveSource(root: string, spec: string): string {
+  if (spec.startsWith('fixture:')) return resolve(fixturesDir(), spec.slice('fixture:'.length));
+  return resolve(root, spec);
+}
+
 export function loadConfig(cwd = process.cwd(), file = CONFIG_FILE): Config {
   const path = resolve(cwd, file);
   // Paths in the file are relative to the file, not to wherever polyx was started.
@@ -107,18 +120,20 @@ export function loadConfig(cwd = process.cwd(), file = CONFIG_FILE): Config {
     }
     const out: CorpusConfig = {
       adapter: cc.adapter,
-      source: resolve(root, cc.source),
+      source: resolveSource(root, cc.source),
       alphabet: resolveAlphabet(root, typeof cc.alphabet === 'string' ? cc.alphabet : `alphabet.${name}.yaml`),
     };
     if (typeof cc.domain === 'string') out.domain = cc.domain;
     if (typeof cc.segmenter === 'string') out.segmenter = cc.segmenter;
-    // A bare filename is looked up in each clause-set root, in order; anything
-    // with a separator is a path from the repository root, which is how the
-    // fixture clause set that ships with the tests is named.
+    // A bare filename is looked up in each clause-set root, in order; a
+    // `fixture:` name is the clause set shipped with the fixture corpus; and
+    // anything else with a separator is a path from the repository root.
     if (typeof cc.policy === 'string') {
-      out.policy = /[\\/]/.test(cc.policy)
-        ? resolve(root, cc.policy)
-        : (policyRoots.map((d) => resolve(d, cc.policy as string)).find((f) => existsSync(f)) ?? resolve(policyRoots[0]!, cc.policy));
+      out.policy = cc.policy.startsWith('fixture:')
+        ? resolveSource(root, cc.policy)
+        : /[\\/]/.test(cc.policy)
+          ? resolve(root, cc.policy)
+          : (policyRoots.map((d) => resolve(d, cc.policy as string)).find((f) => existsSync(f)) ?? resolve(policyRoots[0]!, cc.policy));
     }
     corpora[name] = out;
   }

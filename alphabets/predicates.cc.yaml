@@ -1,0 +1,180 @@
+# Observation predicates for the `cc` corpus (Claude Code sessions).
+#
+# Every predicate here is PROPOSED. None has a calibration record, so none
+# emits a fact, and `polyx audit` reports them as declared-but-inert. That is
+# the correct state for a set nobody has labelled yet: a predicate is inert
+# until a person has drawn its bands from a labelled sample (JF3.1).
+#
+# These are the candidates for the section 8 experiment. `runtime-gap-brief.md`
+# section 5 found eight quotable "load X before doing Y" instructions in this
+# corpus, of which three could be stated as a checkable precondition and five
+# could not — they depend on intent, on an argument's value, or on what a file
+# contains. Those five are why this file exists.
+#
+# Before calibrating any of them, classify by quadrant (W8.1). The measurement
+# that motivates the field is in the header of observation.ts: a question about
+# the WORLD over a partial record returns a confident answer that is right
+# about half the time, and nothing in the response says the question was of
+# that kind. Every predicate below is `text-unknown` and assert-only, because
+# every one of them asks what a text STATES.
+
+corpus: cc
+version: 2
+# Pinned to the model that answered the first probe (21 Sep 2026), not to
+# `jev-latest`: the response names its model, and a later answer from a
+# different one is a recalibration, not a surprise.
+model: jev-1.13.0
+# The text redaction profile every payload leaves under (JT7.1): text.cc.yaml
+# beside this file. `polyx annotate cc --dry-run` writes every payload as it
+# would be sent under it and sends nothing — the artefact a compliance
+# reviewer reads before a key is ever configured (JT7.3).
+redaction: text.cc@1
+
+predicates:
+  # --- the five that mining could not reach -------------------------------
+
+  - id: states_refactor_intent
+    fact: obs.states_refactor_intent
+    status: proposed
+    quadrant: text-unknown
+    source: event.text
+    window: event
+    question: >
+      Does this message ask for existing code to be changed in place —
+      refactored, renamed, moved, reorganised or cleaned up — as opposed to
+      asking for something new to be written, or asking a question?
+    criteria:
+      true: The message asks for existing code to be modified.
+      false: The message asks for something else, or the request is unclear.
+    bands:
+      assertAt: 0.85
+      refuteAt: -1
+
+  - id: names_a_provider
+    fact: obs.names_a_provider
+    status: proposed
+    quadrant: text-unknown
+    source: event.text
+    window: event
+    question: >
+      Does this message name a specific model provider or model family —
+      for example OpenAI, GPT, Gemini, Llama, Mistral, Cohere or Ollama?
+    criteria:
+      true: A provider or model family is named.
+      false: None is named.
+    bands:
+      assertAt: 0.85
+      refuteAt: -1
+
+  - id: states_destructive_intent
+    fact: obs.states_destructive_intent
+    status: proposed
+    quadrant: text-unknown
+    source: event.text
+    window: event
+    question: >
+      Does this message ask for something to be deleted, reset, force-pushed,
+      overwritten or otherwise discarded in a way that cannot be undone?
+    criteria:
+      true: The message asks for an irreversible change.
+      false: It does not.
+    bands:
+      assertAt: 0.9
+      refuteAt: -1
+
+  # states_a_reason, as first written, asked four questions in one — "a
+  # because, a symptom, a goal, or a description of what went wrong" — and
+  # did not calibrate (21 Sep 2026, jev-1.13.0, 60 items: 19 yes, 40 no, 1
+  # unsure). The labels separated by 0.281, so the text does answer it, but
+  # precision was 0.50 at every threshold: thirteen of the forty "no" sat
+  # above 0.7 and five of the nineteen "yes" below 0.2. Two readers, two
+  # definitions of "reason". It is left proposed, and it is split into the
+  # two questions a reader can actually agree on.
+  - id: states_a_reason
+    fact: obs.states_a_reason
+    status: proposed
+    quadrant: text-unknown
+    source: event.text
+    window: event
+    question: >
+      Does this message give a reason for what it asks — a because, a symptom,
+      a goal, or a description of what went wrong?
+    criteria:
+      true: A reason is stated.
+      false: The request is given without one.
+    bands:
+      assertAt: 0.8
+      refuteAt: -1
+
+  - id: states_a_symptom
+    fact: obs.states_a_symptom
+    status: proposed
+    quadrant: text-unknown
+    source: event.text
+    window: event
+    question: >
+      Does this message describe something that went wrong — an error, a
+      failure, a crash, a wrong result, or behaviour the writer did not
+      expect?
+    criteria:
+      true: The message describes a concrete thing that went wrong.
+      false: It does not describe anything going wrong.
+    bands:
+      assertAt: 0.85
+      refuteAt: -1
+
+  - id: states_a_because
+    fact: obs.states_a_because
+    status: proposed
+    quadrant: text-unknown
+    source: event.text
+    window: event
+    question: >
+      Does this message say why it asks for what it asks — with a "because",
+      a "so that", a "since", or an equivalent that gives the writer's reason?
+    criteria:
+      true: The writer states their reason for the request.
+      false: The request is given with no reason for it.
+    bands:
+      assertAt: 0.85
+      refuteAt: -1
+
+  - id: states_scope_limit
+    fact: obs.states_scope_limit
+    status: proposed
+    quadrant: text-unknown
+    source: event.text
+    window: event
+    question: >
+      Does this message put an explicit limit on scope — asking that only a
+      named file, function or area be touched, or that something be left
+      alone?
+    criteria:
+      true: A limit on scope is stated.
+      false: No limit is stated.
+    bands:
+      assertAt: 0.85
+      refuteAt: -1
+
+  # --- one refuting predicate, to exercise the other half of the band -----
+  #
+  # Assert-only is the required setting wherever a `false` would read as "it
+  # did not happen" (JF2.3). Here it does not: the question is about the shape
+  # of the text in front of the model, the text is entirely present, and a
+  # confident low probability genuinely means the message is not a question.
+  # That makes this quadrant `text-closed` rather than `text-unknown`, and it
+  # is the one predicate in this file that may contribute a false.
+  - id: asks_a_question
+    fact: obs.asks_a_question
+    status: proposed
+    quadrant: text-closed
+    source: event.text
+    window: event
+    question: >
+      Is this message asking a question, rather than giving an instruction?
+    criteria:
+      true: The message asks something.
+      false: The message instructs, states or reports.
+    bands:
+      assertAt: 0.85
+      refuteAt: 0.15

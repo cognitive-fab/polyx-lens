@@ -1,0 +1,18 @@
+# Text redaction profile for the synthetic fixture (JT7.1).
+#
+# The fixture seeds emails, phone numbers and account numbers into its turn
+# text precisely so a redaction scan can prove they never reach a stored
+# artefact. This profile is what makes that true for text a predicate reads:
+# the label file, the dry-run preview and every annotation line carry the id
+# `text.synthetic@1`, and the scan in polyx/test/redaction.test.ts is the
+# oracle.
+corpus: synthetic
+version: 1
+rules:
+  - { pattern: email, strategy: token }
+  - { pattern: phone, strategy: hash }
+  # Account ids are tokenised under the slot they also appear in, so a
+  # message that names an account and an event that carries it redact to the
+  # same surrogate and a predicate can relate the two.
+  - { pattern: literal, match: 'ACC-\d{6,}', strategy: token, as: account }
+  - { pattern: digits, strategy: hash, minDigits: 6 }

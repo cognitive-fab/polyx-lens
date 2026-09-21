@@ -49,6 +49,29 @@ export interface Thresholds {
    * behaviour before this existed.
    */
   antecedentFloorExponent: number;
+
+  // --- observation (JF3, A4) ----------------------------------------------
+  // Floors on a PREDICATE rather than on a rule. They live here, with every
+  // other floor, so they sweep and so every run reports the ones it used.
+
+  /** Labelled items a calibration needs (JF3.2). */
+  minCalibration: number;
+  /** …of which at least this many carry each label. */
+  minCalibrationPerLabel: number;
+  /** Assert precision below which a predicate cannot be adjudicated real (JF3.4). */
+  minPredicatePrecision: number;
+  /**
+   * A4. How far the observed probabilities must move between a true case and a
+   * false one before a band may be drawn at all.
+   *
+   * Measured: the admissible form of a question separated its labels by more
+   * than 0.9, while the same question asked about the WORLD rather than about
+   * the text separated by 0.037 — three quantisation steps, with the prompt
+   * stating outright that the record might be incomplete. The default is set
+   * at the minimum band width, which the failing case misses by a factor of
+   * five, so it is a floor that catches the failure without being tuned to it.
+   */
+  minLabelSeparation: number;
 }
 
 export const THRESHOLDS: Thresholds = {
@@ -66,6 +89,10 @@ export const THRESHOLDS: Thresholds = {
   recommendGain: 0.05,
   recommendNovelty: 0.5,
   antecedentFloorExponent: 1,
+  minCalibration: 60,
+  minCalibrationPerLabel: 15,
+  minPredicatePrecision: 0.9,
+  minLabelSeparation: 0.2,
 };
 
 export function withThresholds(overrides: Partial<Thresholds> | undefined): Thresholds {
