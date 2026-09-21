@@ -126,7 +126,7 @@ function parseCalibration(v: unknown, w: string): Calibration {
     corpusRevision: str('corpusRevision'),
     alphabetVersion: num('alphabetVersion'),
     n: num('n'),
-    labels: { true: labels.true, false: labels.false },
+    labels: { true: labels.true, false: labels.false, ...(typeof labels.unsure === 'number' ? { unsure: labels.unsure } : {}) },
     assertPrecision: num('assertPrecision'),
     refutePrecision: c.refutePrecision === null || c.refutePrecision === undefined ? null : num('refutePrecision'),
     withheldFraction: num('withheldFraction'),

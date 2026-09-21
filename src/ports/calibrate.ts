@@ -35,6 +35,8 @@ import {
 export interface Observed {
   true: number[];
   false: number[];
+  /** Items the reviewer could not decide from the text. They count toward the sample, never toward a distribution. */
+  unsure?: number;
 }
 
 export interface CalibrationLimits {
@@ -122,11 +124,13 @@ export interface DeriveOptions extends CalibrationLimits {
  * that failed and what it implies about the question they wrote.
  */
 export function deriveBands(id: string, observed: Observed, opts: DeriveOptions): DerivedBands {
-  const n = observed.true.length + observed.false.length;
+  const n = observed.true.length + observed.false.length + (observed.unsure ?? 0);
   const rejected: Array<{ at: number; why: string }> = [];
 
   // 1. Sample size (JF3.2). Below this, every figure downstream is noise
-  //    wearing two decimal places.
+  //    wearing two decimal places. An unsure IS a label — the reviewer looked
+  //    and could not decide from the text — so it counts toward the sample;
+  //    the per-label floors below are what guarantee enough of each verdict.
   if (n < opts.minCalibration) {
     throw new PredicateError(id, `${n} labelled items, below the required ${opts.minCalibration} (JF3.2)`);
   }
@@ -242,9 +246,9 @@ export function calibrationRecord(
     at: meta.at,
     corpusRevision: meta.corpusRevision,
     alphabetVersion: meta.alphabetVersion,
-    n: observed.true.length + observed.false.length,
-    labels: { true: observed.true.length, false: observed.false.length },
-    observed,
+    n: observed.true.length + observed.false.length + (observed.unsure ?? 0),
+    labels: { true: observed.true.length, false: observed.false.length, ...(observed.unsure ? { unsure: observed.unsure } : {}) },
+    observed: { true: observed.true, false: observed.false },
     assertPrecision: q(d.assertPrecision * 100) / 100,
     refutePrecision: d.refutePrecision === null ? null : q(d.refutePrecision * 100) / 100,
     withheldFraction: q(d.withheldFraction * 100) / 100,

@@ -178,3 +178,17 @@ test('the floors are thresholds, so they sweep and appear in every manifest', ()
   assert.equal(THRESHOLDS.minPredicatePrecision, 0.9);
   assert.equal(THRESHOLDS.minLabelSeparation, 0.2);
 });
+
+test('an unsure label counts toward the sample and appears in the record, never in a distribution', () => {
+  // Sixty items labelled: 30 yes, 29 no, one the reviewer could not decide.
+  // The first real sample did exactly this and was refused as fifty-nine.
+  const o: Observed = { true: around(0.95, 30), false: around(0.03, 29), unsure: 1 };
+  const d = deriveBands('p', o, opts());
+  const c = calibrationRecord(d, o, { at: '2026-09-21', corpusRevision: 'r', alphabetVersion: 1, reviewer: 'jjd' });
+  assert.equal(c.n, 60);
+  assert.deepEqual(c.labels, { true: 30, false: 29, unsure: 1 });
+  assert.equal(c.observed!.true.length + c.observed!.false.length, 59, 'the distributions hold only decided items');
+  // Without the unsure the same sample is fifty-nine and refused: the floor
+  // is on the sample, and an unsure is part of it.
+  assert.throws(() => deriveBands('p', { true: o.true, false: o.false }, opts()), /59 labelled items/);
+});

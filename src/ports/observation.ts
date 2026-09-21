@@ -78,8 +78,15 @@ export interface Calibration {
   at: string;
   corpusRevision: string;
   alphabetVersion: number;
+  /** Items labelled, INCLUDING those the reviewer could not decide from the text. */
   n: number;
-  labels: { true: number; false: number };
+  /**
+   * `unsure` is a verdict, not a gap: the reviewer could not answer from the
+   * text alone, which is what a quadrant-four question looks like from the
+   * labelling chair (JF2.4). Kept in the record because many of them on one
+   * predicate is a finding about the question.
+   */
+  labels: { true: number; false: number; unsure?: number };
   /** The observed `p` on each label — the input to band derivation and to `separation`. */
   observed?: { true: number[]; false: number[] };
   assertPrecision: number;
