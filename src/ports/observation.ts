@@ -136,6 +136,14 @@ export interface Observation {
    * annotated corpus. Nothing reads it until W0.3 says what is in it.
    */
   raw?: Record<string, unknown>;
+  /**
+   * The model that actually answered, as the response names it — e.g.
+   * `jev-1.13.0` when `jev-latest` was asked for. The first probe to print a
+   * whole response found this field; every probe before it had discarded
+   * it. It is what lets `annotate --diff` tell jitter from a model change,
+   * and it belongs on every annotation line and, pinned, in the predicate set.
+   */
+  model?: string;
 }
 
 export interface Observer {

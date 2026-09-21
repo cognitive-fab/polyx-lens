@@ -47,6 +47,8 @@ export interface AnnotationLine {
    * costs a fresh pass over the corpus.
    */
   raw?: Record<string, unknown>;
+  /** The model that answered, as the response named it (`jev-1.13.0`), whatever the predicate set asked for. */
+  model?: string;
 }
 
 /** The order every file is written in (JT3): stable, so two passes over one corpus diff line by line. */
@@ -135,6 +137,8 @@ export function indexAnnotations(file: AnnotationFile): Map<string, AnnotationLi
 export const siteKey = (interactionId: string, episodeId: string, seq: number): string => `${interactionId}\u0000${episodeId}\u0000${seq}`;
 
 export interface AnnotationDiff {
+  /** The models that answered each file. Different names mean drift is a model change, not jitter. */
+  models: { before: string[]; after: string[] };
   /** Sites present in both. */
   shared: number;
   /** Emitted fact changed: true↔false, or emitted↔withheld. The drift figure (JF6.6). */
@@ -177,7 +181,9 @@ export function diffAnnotations(before: AnnotationFile, after: AnnotationFile, j
       moved++;
     }
   }
+  const models = (f: AnnotationFile) => [...new Set(f.lines.map((l) => l.model).filter((m): m is string => Boolean(m)))].sort();
   return {
+    models: { before: models(before), after: models(after) },
     shared,
     changed,
     moved,

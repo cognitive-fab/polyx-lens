@@ -20,7 +20,10 @@
 
 corpus: cc
 version: 1
-model: jev-latest
+# Pinned to the model that answered the first probe (21 Sep 2026), not to
+# `jev-latest`: the response names its model, and a later answer from a
+# different one is a recalibration, not a surprise.
+model: jev-1.13.0
 # The text redaction profile every payload leaves under (JT7.1): text.cc.yaml
 # beside this file. `polyx annotate cc --dry-run` writes every payload as it
 # would be sent under it and sends nothing — the artefact a compliance
