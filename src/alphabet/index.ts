@@ -68,6 +68,19 @@ export interface EventType {
   recommendable: boolean;
   /** If present, only these slots are kept. Otherwise every slot is kept (redacted). */
   slots?: string[];
+  /**
+   * Slots that NAME a thing, so that two events carrying the same value are
+   * about the same thing: `file` on reading and editing a file, never `ext`.
+   * A rule may then ask for "the same one" — read *this* file before editing
+   * it — where without the declaration it can only ask for the type.
+   *
+   * Declared, not inferred. Whether a slot is an identity is a fact about the
+   * domain, and a same-value rule over a slot that is not one ("read a .ts
+   * file before editing a .ts file") is true, well supported and useless.
+   * Redaction must preserve equality for the declaration to mean anything,
+   * which `token` and `hash` both do.
+   */
+  identity?: string[];
   /** For a one-line description a reviewer reads instead of the id. */
   label?: string;
 }
@@ -194,6 +207,13 @@ export function parseAlphabet(text: string, where = 'alphabet'): Alphabet {
     if (e.slots !== undefined) {
       if (!Array.isArray(e.slots) || !e.slots.every((s) => typeof s === 'string')) fail(`${w} (${e.id}): slots must be a list of names`);
       out.slots = e.slots as string[];
+    }
+    if (e.identity !== undefined) {
+      if (!Array.isArray(e.identity) || !e.identity.every((s) => typeof s === 'string')) fail(`${w} (${e.id}): identity must be a list of slot names`);
+      // An identity the event does not keep would compare two absences.
+      const dropped = out.slots ? (e.identity as string[]).filter((s) => !out.slots!.includes(s)) : [];
+      if (dropped.length) fail(`${w} (${e.id}): identity names ${dropped.join(', ')}, which slots does not keep`);
+      out.identity = e.identity as string[];
     }
     if (typeof e.label === 'string') out.label = e.label;
     return out;

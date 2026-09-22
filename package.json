@@ -1,6 +1,6 @@
 {
   "name": "@cognitive-fab/polyx-lens",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Read an agent's own logs and report which of the rules it was given it actually kept. No mining, no model call, nothing leaves the machine.",
   "type": "module",
   "license": "Apache-2.0",

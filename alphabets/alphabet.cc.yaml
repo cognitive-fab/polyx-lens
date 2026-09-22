@@ -109,21 +109,34 @@ event_types:
     slots: []
 
   # ------------------------------------------------------------- file access
+  # `file` is an identity: the same token is the same file, so a rule can ask
+  # for "read THIS file before editing it" rather than "read some file". The
+  # type-level rule is satisfied by any read at all, which is the case that
+  # matters least — the edit made from a guess about a file never opened.
+  # Measured on the cc corpus before this was declared: 3,930 edits, 3,426 of
+  # them preceded in the session by a read or a whole write of the same path,
+  # and no pair that matched only after normalising case or slashes.
+  #
+  # Declaring it does not move the version: nothing is typed differently, and
+  # a bump would mark every calibrated predicate over this alphabet stale.
   - id: action:read_file
     label: read a file
     match: { speaker: action, tool: [Read, NotebookRead] }
     consequence: none
     slots: [file, ext]
+    identity: [file]
   - id: action:edit_file
     label: edit a file
     match: { speaker: action, tool: [Edit, NotebookEdit] }
     consequence: compensable
     slots: [file, ext]
+    identity: [file]
   - id: action:write_file
     label: write a file whole
     match: { speaker: action, tool: Write }
     consequence: compensable
     slots: [file, ext]
+    identity: [file]
   - id: action:search_code
     label: search the code
     match: { speaker: action, tool: [Grep, Glob] }

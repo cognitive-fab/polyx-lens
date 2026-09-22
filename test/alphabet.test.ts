@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { AlphabetError, applyAlphabet, classify, consequentialTypes, loadAlphabet, parseAlphabet, recommendableTypes } from '../src/index.ts';
+import { AlphabetError, applyAlphabet, builtinAlphabet, classify, consequentialTypes, loadAlphabet, parseAlphabet, recommendableTypes } from '../src/index.ts';
 import { syntheticAdapter } from '../src/index.ts';
 import { UNKNOWN_TYPE } from '../src/index.ts';
 import { SYNTHETIC_ALPHABET, SYNTHETIC_SOURCE } from './helpers.ts';
@@ -39,6 +39,21 @@ test('the mining floor excludes reversible actions (ACV 8.2)', () => {
   );
   assert.deepEqual([...consequentialTypes(a)], ['action:refund'], 'reversible is below the default floor');
   assert.deepEqual([...consequentialTypes(a, 'reversible')].sort(), ['action:draft', 'action:refund']);
+});
+
+test('identity: slots that name a thing are declared, and must be slots the event keeps', () => {
+  const doc = (identity: string) =>
+    `corpus: x\nversion: 1\nevent_types:\n  - id: action:edit\n    match: { speaker: action, tool: Edit }\n    consequence: compensable\n    slots: [file, ext]\n    identity: ${identity}\n`;
+  assert.deepEqual(parseAlphabet(doc('[file]')).eventTypes[0]!.identity, ['file']);
+  // Comparing a slot the alphabet drops would compare two absences, and every
+  // edit would be "about the same file" as every read.
+  assert.throws(() => parseAlphabet(doc('[path]')), /identity names path, which slots does not keep/);
+  assert.throws(() => parseAlphabet(doc('file')), /identity must be a list/);
+  // The shipped cc alphabet declares the file, never the extension.
+  const cc = loadAlphabet(builtinAlphabet('alphabet.cc.yaml')!);
+  for (const id of ['action:read_file', 'action:edit_file', 'action:write_file']) {
+    assert.deepEqual(cc.eventTypes.find((t) => t.id === id)!.identity, ['file'], id);
+  }
 });
 
 test('classify: first match in document order; list and scalar matches; unmatched is undefined', () => {
