@@ -7,7 +7,7 @@
 // the miner's — so the threshold is set to 1 here and re-applied downstream.
 //
 // Modification of upstream: none.
-import { subjects as polynessSubjects } from 'polyness/src/subjects.mjs';
+import { subjects as polynessSubjects } from '#polyness/subjects.mjs';
 import type { Event, Interaction } from '../../record.ts';
 import { sortInstances, sortSubjects, type Instance, type Subject, type SubjectExtractor } from '../subjects.ts';
 

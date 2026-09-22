@@ -2,7 +2,7 @@
 // projects; polyx speaks of operators. Same judgement, renamed at the edge.
 //
 // Modification of upstream: none.
-import { classify } from 'polyness/src/provenance.mjs';
+import { classify } from '#polyness/provenance.mjs';
 import type { ProvenanceClassifier } from '../provenance.ts';
 
 export const polynessClassifier: ProvenanceClassifier = {

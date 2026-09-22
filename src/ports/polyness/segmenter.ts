@@ -13,7 +13,7 @@
 // an event, so the intent event is assigned to the episode it opens.
 //
 // Modification of upstream: none. The upstream module is called as published.
-import { episodes } from 'polyness/src/episodes.mjs';
+import { episodes } from '#polyness/episodes.mjs';
 import { UNKNOWN_TYPE, type EpisodeId, type Event } from '../../record.ts';
 import type { Segmenter } from '../segmentation.ts';
 

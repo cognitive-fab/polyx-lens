@@ -4,6 +4,11 @@
   "description": "Read an agent's own logs and report which of the rules it was given it actually kept. No mining, no model call, nothing leaves the machine.",
   "type": "module",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cognitive-fab/polyx-lens.git"
+  },
+  "homepage": "https://github.com/cognitive-fab/polyx-lens#readme",
   "engines": {
     "node": ">=22.18.0"
   },
@@ -15,6 +20,9 @@
       "types": "./dist/src/index.d.ts",
       "default": "./dist/src/index.js"
     }
+  },
+  "imports": {
+    "#polyness/*": "./vendor/polyness/src/*"
   },
   "files": [
     "dist",
@@ -37,7 +45,6 @@
     "check:offline": "node --no-warnings scripts/check-offline.mjs"
   },
   "dependencies": {
-    "polyness": "file:vendor/polyness",
     "yaml": "^2.9.0"
   },
   "devDependencies": {
