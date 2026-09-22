@@ -20,7 +20,7 @@ export function packageRoot(): string {
     const pkg = join(dir, 'package.json');
     if (existsSync(pkg)) {
       try {
-        if ((JSON.parse(readFileSync(pkg, 'utf8')) as { name?: string }).name === 'polyx-lens') return (cached = dir);
+        if ((JSON.parse(readFileSync(pkg, 'utf8')) as { name?: string }).name === '@cognitive-fab/polyx-lens') return (cached = dir);
       } catch {
         // a malformed package.json on the way up is not ours; keep walking
       }
