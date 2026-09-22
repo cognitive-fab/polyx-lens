@@ -7,7 +7,7 @@
 import { existsSync } from 'node:fs';
 import { audit, renderAudit } from './audit.ts';
 import { corpusConfig, loadConfig } from './config.ts';
-import { builtinContracts } from './lens/builtin.ts';
+import { builtinContracts, packageRoot } from './lens/builtin.ts';
 import { claudeProjectsDir, localCorpus, type LocalCorpus } from './lens/local.ts';
 import { exerciseClauses, inventory } from './lens/check.ts';
 import { loadContracts } from './lens/contracts.ts';
@@ -45,6 +45,15 @@ export async function run(argv: string[], out: (s: string) => void = console.log
   const positional = args.filter((a, i) => !a.startsWith('-') && !(ci >= 0 && i === ci + 1));
 
   const config = loadConfig();
+  // The corpora this package ships (`cc-sample` and the fixtures) are named in
+  // its own polyx.config.json. Run from anywhere else, as `npx` does, the
+  // working directory has no such file, so fall back to the shipped entries
+  // for any name the local config does not define. A local entry always wins.
+  if (packageRoot() !== config.root) {
+    for (const [name, c] of Object.entries(loadConfig(packageRoot()).corpora)) {
+      if (!config.corpora[name]) config.corpora[name] = c;
+    }
+  }
   let found: LocalCorpus | null = null;
   const sub = positional[0] === 'audit' ? 'audit' : 'report';
   let corpusName = sub === 'audit' ? positional[1] : positional[0];
